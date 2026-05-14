@@ -252,35 +252,6 @@ with st.sidebar:
 5. Read the *What does this tell us?* section
 """)
     st.divider()
-
-    t2_done = st.session_state.get("t2_done", False)
-    t3_done = st.session_state.get("t3_done", False)
-    t5_done = st.session_state.get("t5_done", False)
-
-    st.markdown("**Task status:**")
-    st.markdown(f"{'✅' if t2_done else '⬜'} Task 2 — Bias & Segmentation")
-    st.markdown(f"{'✅' if t3_done else '⬜'} Task 3 — Route Algorithms")
-    st.markdown(f"{'✅' if t5_done else '⬜'} Task 5 — Demand Forecasting")
-    st.divider()
-
-    st.markdown("**Download Report**")
-    if t2_done or t3_done or t5_done:
-        report_buf = _build_report(
-            st.session_state.get("t2_text",""),
-            st.session_state.get("t3_text",""),
-            st.session_state.get("t5_text",""),
-        )
-        st.download_button(
-            label="⬇  Download .docx report",
-            data=report_buf,
-            file_name="EcoCart_Report.docx",
-            mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-            use_container_width=True,
-        )
-        st.caption("Report includes all outputs and charts from completed tasks.")
-    else:
-        st.caption("Run Tasks 2, 3 and 5 first — download button will appear here.")
-    st.divider()
     st.caption("All outputs are from the actual task Python scripts.")
 
 # ── header ────────────────────────────────────────────────────────────────────
