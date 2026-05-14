@@ -8,6 +8,13 @@ import sys, io, os, math, heapq, time, importlib.util
 from contextlib import redirect_stdout
 from collections import deque
 
+# set non-interactive backend before any task script imports matplotlib
+import matplotlib
+matplotlib.use("Agg")
+
+# ensure output folder exists (Streamlit Cloud starts fresh each deploy)
+os.makedirs("output", exist_ok=True)
+
 import numpy as np
 import pandas as pd
 import streamlit as st
