@@ -444,12 +444,16 @@ with T1:
         st.markdown("<div class='section-label' style='margin-top:12px'>All agents</div>",unsafe_allow_html=True)
         for nm in agent_names:
             km=_route_km(ROUTES[nm]); c=AGENT_COL[nm]
-            hi=next((i for i,n in enumerate(ROUTES[nm]) if n!="Depot" and STOPS[n][2]>=4),"-")
+            rt=ROUTES[nm]
+            hi=next((i for i,n in enumerate(rt) if n!="Depot" and STOPS[n][2]>=4),"-")
+            prio_sum=sum(STOPS[n][2] for n in rt if n!="Depot")
             st.markdown(
                 f"<div style='border-left:3px solid {c};padding:6px 10px;"
                 f"margin:4px 0;background:{'#f8fafc' if nm!=agent else c+'12'};border-radius:0 6px 6px 0'>"
-                f"<b style='font-size:.82rem'>{nm}</b> &nbsp;"
-                f"<span style='color:{MUTE};font-size:.78rem'>{km} km · 1st star: step {hi}</span>"
+                f"<b style='font-size:.82rem'>{nm}</b><br>"
+                f"<span style='color:{MUTE};font-size:.78rem'>"
+                f"Distance: {km} km &nbsp;|&nbsp; Priority pts: {prio_sum}<br>"
+                f"First ⭐ stop: step {hi}</span>"
                 f"</div>",unsafe_allow_html=True)
 
     # ── auto-play ─────────────────────────────────────────────────────────────
@@ -700,7 +704,7 @@ with T4:
                                             margin=dict(l=40,r=20,t=50,b=30),
                                             legend=dict(bgcolor=SURF,bordercolor=LINE))
                             fl.update_xaxes(gridcolor=LINE); fl.update_yaxes(gridcolor=LINE)
-                            chart_ph.plotly_chart(fl,use_container_width=True)
+                            chart_ph.plotly_chart(fl,use_container_width=True,key=f"bench_{done}")
 
             prog.empty(); status_ph.empty()
             df_b=pd.DataFrame(rows)
