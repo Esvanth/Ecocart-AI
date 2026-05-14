@@ -299,7 +299,6 @@ with st.sidebar:
     <div style='text-align:center;margin-bottom:16px;'>
       <div style='font-size:2.2rem;'>🛒</div>
       <div style='font-size:1.1rem;font-weight:800;color:#0f172a;'>EcoCart AI</div>
-      <div style='font-size:.76rem;color:#64748b;'>NCI MSCAI · TABA 2026</div>
     </div>
     """, unsafe_allow_html=True)
     st.divider()
@@ -351,10 +350,6 @@ st.markdown("""
     <div>
       <h1>EcoCart AI System</h1>
       <p>Route optimisation &nbsp;·&nbsp; Customer segmentation &nbsp;·&nbsp; Demand forecasting</p>
-    </div>
-    <div style='text-align:right;'>
-      <span class='tag'>NCI MSCAI</span><span class='tag'>TABA 2026</span>
-      <div style='font-size:.72rem;color:#64748b;margin-top:6px;'>Fundamentals of Artificial Intelligence</div>
     </div>
   </div>
 </div>
@@ -470,9 +465,12 @@ with T1:
                 st.session_state["playing"] = False
                 st.rerun()
 
-    agent    = st.session_state.get("_ag", "Reactive Agent")
-    ac       = RCOLS[agent]
-    route    = ROUTES[agent]
+    agent = st.session_state.get("_ag", "Reactive Agent")
+    if agent not in RCOLS:
+        agent = "Reactive Agent"
+        st.session_state["_ag"] = agent
+    ac    = RCOLS[agent]
+    route = ROUTES[agent]
     mx       = len(route) - 1
 
     if st.session_state.get("_ag_prev") != agent:
