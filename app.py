@@ -373,12 +373,13 @@ def _met(y,yh):
 st.markdown("<h2 style='margin:0 0 12px;color:#1e293b'>🛒 EcoCart AI System</h2>",
             unsafe_allow_html=True)
 
-T1,T2,T3,T4,T5=st.tabs([
+T1,T2,T3,T4,T5,T6=st.tabs([
     "🤖  Task 1 — AI Agents",
     "⚖️  Task 2 — Bias Check",
     "🗺️  Task 3 — Route Finder",
     "📊  Task 4 — Speed Test",
     "📈  Task 5 — Sales Forecast",
+    "💼  Task 6 — Business Case",
 ])
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -858,3 +859,182 @@ with T5:
                                    "LR Prediction":lp.round(1),"RF Prediction":rp.round(1),
                                    "LR Error":(y-lp).round(1),"RF Error":(y-rp).round(1)}),
                      use_container_width=True)
+
+# ══════════════════════════════════════════════════════════════════════════════
+#  TASK 6 — BUSINESS CASE  (optional for AI students — covers 20% Business Viability)
+# ══════════════════════════════════════════════════════════════════════════════
+with T6:
+    st.markdown("### Business Case — ROI & Sustainability Impact")
+    st.caption("Adjust the assumptions below to model EcoCart's financial and environmental gains from the AI system.")
+
+    # ── assumption sliders ────────────────────────────────────────────────────
+    st.markdown("#### Your business assumptions")
+    c1,c2,c3=st.columns(3)
+    with c1:
+        fleet       = st.slider("Fleet size (vehicles)",       5,  100,  30, 5)
+        deliveries  = st.slider("Deliveries per vehicle/day", 10,   80,  40, 5)
+        avg_km      = st.slider("Avg km per delivery",         2,   30,  12, 1)
+    with c2:
+        fuel_cost   = st.slider("Fuel cost per km (€)",      0.10, 0.60, 0.32, 0.01, format="€%.2f")
+        driver_wage = st.slider("Driver hourly wage (€)",       10,   35,  18, 1,    format="€%d")
+        working_days= st.slider("Working days per year",       200,  365, 300, 10)
+    with c3:
+        route_saving_pct  = st.slider("Route saving from A* (%)",       5,  35, 18, 1, format="%d%%",
+                                       help="How much shorter routes become with A* vs manual planning")
+        forecast_waste_pct= st.slider("Waste cut from forecasting (%)", 5,  40, 22, 1, format="%d%%",
+                                       help="Reduction in overstock/understock from ML demand prediction")
+        segment_revenue   = st.slider("Extra revenue from fair targeting (€k/yr)", 10, 200, 65, 5)
+
+    st.divider()
+
+    # ── calculations ──────────────────────────────────────────────────────────
+    total_deliveries_yr = fleet * deliveries * working_days
+    total_km_yr         = total_deliveries_yr * avg_km
+
+    # route savings
+    km_saved            = total_km_yr * route_saving_pct / 100
+    fuel_saved          = km_saved * fuel_cost
+    time_saved_hrs      = km_saved / 40                          # assume 40 km/h avg
+    driver_time_saved   = time_saved_hrs * driver_wage
+    route_total_saving  = fuel_saved + driver_time_saved
+
+    # CO2 savings  (diesel: ~0.27 kg CO2/km urban, ~0.21 rural — avg 0.24)
+    co2_saved_kg        = km_saved * 0.24
+    co2_saved_tonnes    = co2_saved_kg / 1000
+
+    # forecast savings (assume avg inventory cost €8 per unit, 500 SKUs)
+    inventory_cost_base = 500 * 8 * working_days * 0.05         # 5% daily holding cost approximation
+    forecast_saving     = inventory_cost_base * forecast_waste_pct / 100
+
+    # segmentation revenue uplift
+    segment_saving      = segment_revenue * 1000
+
+    # total benefit
+    total_benefit       = route_total_saving + forecast_saving + segment_saving
+
+    # implementation cost (one-off dev + annual cloud)
+    dev_cost            = 45000      # one-off
+    annual_ops          = 8000       # cloud + maintenance per year
+    total_cost_yr1      = dev_cost + annual_ops
+    total_cost_yr3      = dev_cost + annual_ops * 3
+
+    roi_yr1  = round((total_benefit - total_cost_yr1) / total_cost_yr1 * 100, 1)
+    roi_yr3  = round((total_benefit * 3 - total_cost_yr3) / total_cost_yr3 * 100, 1)
+    payback  = round(total_cost_yr1 / total_benefit * 12, 1)    # months
+
+    # ── headline metrics ──────────────────────────────────────────────────────
+    st.markdown("#### Results")
+    m=st.columns(4)
+    m[0].metric("Annual cost saving",  f"€{total_benefit/1000:.1f}k")
+    m[1].metric("Year-1 ROI",          f"{roi_yr1}%",
+                delta="positive" if roi_yr1>0 else "negative")
+    m[2].metric("Payback period",      f"{payback} months")
+    m[3].metric("CO₂ saved per year",  f"{co2_saved_tonnes:.1f} tonnes")
+
+    # ── savings breakdown bar chart ───────────────────────────────────────────
+    fig_roi=go.Figure()
+    categories=["Route\nOptimisation","Demand\nForecasting","Fairer\nSegmentation"]
+    values=[round(route_total_saving/1000,1),
+            round(forecast_saving/1000,1),
+            round(segment_saving/1000,1)]
+    colors=[BLUE,GREEN,AMBER]
+    fig_roi.add_trace(go.Bar(
+        x=categories, y=values,
+        marker_color=colors,
+        text=[f"€{v}k" for v in values],
+        textposition="outside", textfont_color=FG,
+        hovertemplate="%{x}<br>Saving: €%{y}k/year<extra></extra>",
+        width=0.5,
+    ))
+    fig_roi.update_layout(**_ch(300,"Annual savings breakdown by AI module (€ thousands)"))
+    fig_roi.update_xaxes(**_xax())
+    fig_roi.update_yaxes(**_yax(title="€ thousands"))
+    st.plotly_chart(fig_roi,use_container_width=True)
+
+    # ── 3-year cumulative ROI line ────────────────────────────────────────────
+    years=[0,1,2,3]
+    cumulative_benefit=[0, total_benefit, total_benefit*2, total_benefit*3]
+    cumulative_cost   =[0, total_cost_yr1, total_cost_yr1+annual_ops, total_cost_yr1+annual_ops*2]
+    cumulative_net    =[b-c for b,c in zip(cumulative_benefit,cumulative_cost)]
+
+    fig_cum=go.Figure()
+    fig_cum.add_trace(go.Scatter(x=years,y=[v/1000 for v in cumulative_benefit],
+        name="Cumulative benefit",line=dict(color=GREEN,width=2.5),
+        hovertemplate="Year %{x}<br>Benefit: €%{y:.1f}k<extra></extra>"))
+    fig_cum.add_trace(go.Scatter(x=years,y=[v/1000 for v in cumulative_cost],
+        name="Cumulative cost",line=dict(color=RED,width=2.5,dash="dash"),
+        hovertemplate="Year %{x}<br>Cost: €%{y:.1f}k<extra></extra>"))
+    fig_cum.add_trace(go.Scatter(x=years,y=[v/1000 for v in cumulative_net],
+        name="Net gain",line=dict(color=BLUE,width=2.5,dash="dot"),
+        fill="tozeroy",fillcolor=f"{BLUE}18",
+        hovertemplate="Year %{x}<br>Net: €%{y:.1f}k<extra></extra>"))
+    fig_cum.add_hline(y=0,line_color="#94a3b8",line_width=1.5,line_dash="dash")
+    fig_cum.update_layout(**_ch(300,"3-year cumulative ROI projection (€ thousands)"))
+    fig_cum.update_xaxes(**_xax(title="Year",tickvals=[0,1,2,3],ticktext=["Now","Year 1","Year 2","Year 3"]))
+    fig_cum.update_yaxes(**_yax(title="€ thousands"))
+    st.plotly_chart(fig_cum,use_container_width=True)
+
+    # ── CO2 & sustainability ──────────────────────────────────────────────────
+    st.markdown("#### Sustainability Impact")
+    sc=st.columns(3)
+    trees_equiv = round(co2_saved_tonnes * 45)   # ~45 trees absorb 1 tonne CO2/year
+    cars_equiv  = round(co2_saved_tonnes / 2.3)  # avg car emits 2.3 tonnes CO2/year
+    sc[0].metric("CO₂ saved per year",   f"{co2_saved_tonnes:.1f} tonnes")
+    sc[1].metric("Equivalent trees planted", f"{trees_equiv:,}")
+    sc[2].metric("Cars taken off the road",  f"{cars_equiv:,}")
+
+    fig_co2=go.Figure(go.Bar(
+        x=["Fuel savings\n(route opt.)","Green routing\n(CO₂ mode)","Total CO₂\nreduction"],
+        y=[round(co2_saved_tonnes*0.75,1), round(co2_saved_tonnes*0.25,1), round(co2_saved_tonnes,1)],
+        marker_color=[GREEN,BLUE,AMBER],
+        text=[f"{v:.1f}t" for v in [co2_saved_tonnes*0.75, co2_saved_tonnes*0.25, co2_saved_tonnes]],
+        textposition="outside",textfont_color=FG,width=0.45,
+        hovertemplate="%{x}<br>%{y:.1f} tonnes CO₂/year<extra></extra>",
+    ))
+    fig_co2.update_layout(**_ch(280,"Annual CO₂ reduction (tonnes)"))
+    fig_co2.update_xaxes(**_xax())
+    fig_co2.update_yaxes(**_yax(title="Tonnes CO₂"))
+    st.plotly_chart(fig_co2,use_container_width=True)
+
+    # ── implementation roadmap ────────────────────────────────────────────────
+    st.markdown("#### Implementation Roadmap")
+    phases=[
+        dict(Task="Phase 1: Route Optimisation (A*)",  Start=0, Finish=2,  Color=BLUE),
+        dict(Task="Phase 2: Bias Fix (Segmentation)",  Start=1, Finish=3,  Color=AMBER),
+        dict(Task="Phase 3: Demand Forecasting (ML)",  Start=2, Finish=5,  Color=GREEN),
+        dict(Task="Phase 4: Integration & Testing",    Start=4, Finish=6,  Color=PURPLE),
+        dict(Task="Phase 5: Full Deployment",          Start=6, Finish=8,  Color=RED),
+    ]
+    fig_rm=go.Figure()
+    for i,p in enumerate(phases):
+        fig_rm.add_trace(go.Bar(
+            x=[p["Finish"]-p["Start"]], y=[p["Task"]],
+            base=p["Start"], orientation="h",
+            marker_color=p["Color"], marker_opacity=0.85,
+            text=f"Month {p['Start']+1}–{p['Finish']}",
+            textposition="inside", textfont=dict(color="#fff",size=11),
+            showlegend=False,
+            hovertemplate=f"<b>{p['Task']}</b><br>Month {p['Start']+1} → {p['Finish']}<extra></extra>",
+        ))
+    fig_rm.update_layout(**_ch(280,"Deployment timeline (months)"))
+    fig_rm.update_xaxes(**_xax(title="Month",tickvals=list(range(9)),
+                               ticktext=[f"M{i}" for i in range(9)]))
+    fig_rm.update_yaxes(**_yax(autorange="reversed"))
+    st.plotly_chart(fig_rm,use_container_width=True)
+
+    # ── summary box ───────────────────────────────────────────────────────────
+    st.markdown(
+        f"<div style='background:#f0fdf4;border:1px solid #bbf7d0;border-radius:12px;"
+        f"padding:20px 24px;margin-top:8px'>"
+        f"<b style='font-size:1rem;color:#065f46'>Business Summary</b><br><br>"
+        f"EcoCart's AI system delivers an estimated <b>€{total_benefit/1000:.0f}k in annual savings</b> "
+        f"across three areas: smarter routing (A* reduces km by {route_saving_pct}%), "
+        f"better stock management (ML cuts waste by {forecast_waste_pct}%), "
+        f"and fairer customer targeting (rural revenue uplift of €{segment_revenue}k). "
+        f"The system pays for itself in <b>{payback} months</b> and generates a "
+        f"<b>{roi_yr3}% ROI over 3 years</b>. "
+        f"It also removes <b>{co2_saved_tonnes:.1f} tonnes of CO₂</b> annually — "
+        f"directly supporting EcoCart's sustainability commitments."
+        f"</div>",
+        unsafe_allow_html=True,
+    )
