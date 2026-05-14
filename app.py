@@ -966,7 +966,7 @@ with T6:
         hovertemplate="Year %{x}<br>Cost: €%{y:.1f}k<extra></extra>"))
     fig_cum.add_trace(go.Scatter(x=years,y=[v/1000 for v in cumulative_net],
         name="Net gain",line=dict(color=BLUE,width=2.5,dash="dot"),
-        fill="tozeroy",fillcolor=f"{BLUE}18",
+        fill="tozeroy",fillcolor="rgba(59,130,246,0.08)",
         hovertemplate="Year %{x}<br>Net: €%{y:.1f}k<extra></extra>"))
     fig_cum.add_hline(y=0,line_color="#94a3b8",line_width=1.5,line_dash="dash")
     fig_cum.update_layout(**_ch(300,"3-year cumulative ROI projection (€ thousands)"))
