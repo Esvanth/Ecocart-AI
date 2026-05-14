@@ -235,15 +235,6 @@ with st.sidebar:
         st.markdown(f"<div style='color:{col};font-size:.82rem;margin:3px 0;'>{icon} {lbl}</div>",
                     unsafe_allow_html=True)
 
-    if t2_done or t3_done or t5_done:
-        st.divider()
-        buf = _build_report(st.session_state.get("t2_text",""),
-                            st.session_state.get("t3_text",""),
-                            st.session_state.get("t5_text",""))
-        st.download_button("⬇ Download Report (.docx)", buf,
-                           file_name="EcoCart_Report.docx",
-                           mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-                           use_container_width=True)
     st.divider()
     st.caption("All outputs are from the real task Python scripts.")
 
