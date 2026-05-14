@@ -8,7 +8,7 @@ An interactive AI-powered logistics simulation
 
 ## What is EcoCart?
 
-EcoCart is a mid-sized e-commerce company facing challenges in optimising its logistics network. This project proposes an AI-based solution across five tasks — from intelligent delivery agents to demand forecasting.
+EcoCart is a mid-sized e-commerce company facing challenges in optimising its logistics network. This project proposes an AI-based solution across six tasks — from intelligent delivery agents to demand forecasting and business ROI analysis.
 
 ---
 
@@ -45,6 +45,13 @@ Trains two ML models on 730 days of synthetic sales data:
 
 Features a **what-if predictor** — enter any day, month, and promotion flag to get an instant sales prediction.
 
+### Task 6 — Business Case *(Voluntary — AI Student)*
+Quantifies the financial and environmental impact of the AI system with fully interactive sliders:
+- **ROI calculator** — adjusts fleet size, fuel cost, wage rates and shows live annual savings
+- **3-year ROI projection** — cumulative benefit vs cost with breakeven line
+- **CO₂ impact** — tonnes saved per year, tree and car equivalents
+- **Implementation roadmap** — 5-phase Gantt chart across 8 months
+
 ---
 
 ## Tech Stack
@@ -74,7 +81,7 @@ streamlit run app.py
 
 ```
 Ecocart-AI/
-├── app.py                   # Main Streamlit app (all 5 tasks)
+├── app.py                   # Main Streamlit app (all 6 tasks)
 ├── task2_segmentation.py    # Standalone Task 2 script
 ├── task3_4_routing.py       # Standalone Tasks 3 & 4 script
 ├── task5_forecasting.py     # Standalone Task 5 script
