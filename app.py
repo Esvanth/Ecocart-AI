@@ -302,10 +302,10 @@ exists and applies a fix to make the results fair.
             with redirect_stdout(buf):
                 spec.loader.exec_module(m)
                 m.main()
-            return buf.getvalue(), m
+            return buf.getvalue()
 
         with st.spinner("Running task2_segmentation.py..."):
-            t2_output, t2_mod = _run_task2()
+            t2_output = _run_task2()
 
         st.markdown("<div class='step-box'><span class='step-num'>2</span>"
                     "<b>Terminal output from task2_segmentation.py</b></div>",
@@ -372,10 +372,10 @@ how each algorithm explores the network step by step.
             with redirect_stdout(buf):
                 spec.loader.exec_module(m)
                 m.main()
-            return buf.getvalue(), m
+            return buf.getvalue()
 
         with st.spinner("Running task3_4_routing.py..."):
-            t3_output, t3_mod = _run_task3()
+            t3_output = _run_task3()
 
         st.markdown("<div class='step-box'><span class='step-num'>2</span>"
                     "<b>Terminal output from task3_4_routing.py</b></div>",
