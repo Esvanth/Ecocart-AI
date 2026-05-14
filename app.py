@@ -18,8 +18,166 @@ os.makedirs("output", exist_ok=True)
 import numpy as np
 import pandas as pd
 import streamlit as st
+from docx import Document
+from docx.shared import Inches, Pt, RGBColor
+from docx.enum.text import WD_ALIGN_PARAGRAPH
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
+
+# ══════════════════════════════════════════════════════════════════════════════
+#  REPORT GENERATOR
+# ══════════════════════════════════════════════════════════════════════════════
+
+def _build_report(t2_text, t3_text, t5_text):
+    """Build a Word report from the task outputs stored in session state."""
+    TNR = "Times New Roman"
+    doc = Document()
+
+    # default style
+    doc.styles["Normal"].font.name = TNR
+    doc.styles["Normal"].font.size = Pt(12)
+    doc.styles["Normal"].paragraph_format.space_after = Pt(8)
+    for lvl, sz in [(1,14),(2,13)]:
+        s = doc.styles[f"Heading {lvl}"]
+        s.font.name = TNR; s.font.bold = True; s.font.size = Pt(sz)
+        s.font.color.rgb = RGBColor(0,0,0)
+        s.paragraph_format.space_before = Pt(12)
+        s.paragraph_format.space_after  = Pt(4)
+
+    def H(txt, lv=1):
+        p = doc.add_heading(txt, level=lv)
+        p.alignment = WD_ALIGN_PARAGRAPH.LEFT
+        for r in p.runs: r.font.name=TNR; r.font.color.rgb=RGBColor(0,0,0)
+
+    def P(txt):
+        p = doc.add_paragraph()
+        p.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
+        p.paragraph_format.space_after = Pt(8)
+        r = p.add_run(txt); r.font.name=TNR; r.font.size=Pt(12)
+
+    def CODE(txt):
+        p = doc.add_paragraph()
+        p.paragraph_format.space_after = Pt(6)
+        r = p.add_run(txt)
+        r.font.name = "Courier New"; r.font.size = Pt(9)
+
+    def IMG(path, caption="", width=5.5):
+        if os.path.exists(path):
+            doc.add_picture(path, width=Inches(width))
+            doc.paragraphs[-1].alignment = WD_ALIGN_PARAGRAPH.CENTER
+        if caption:
+            cp = doc.add_paragraph(caption)
+            cp.alignment = WD_ALIGN_PARAGRAPH.CENTER
+            cp.paragraph_format.space_after = Pt(8)
+            for r in cp.runs: r.font.name=TNR; r.font.size=Pt(10); r.font.italic=True
+
+    def SP(): doc.add_paragraph("").paragraph_format.space_after = Pt(4)
+
+    # ── cover ─────────────────────────────────────────────────────────────────
+    SP(); SP()
+    p = doc.add_paragraph()
+    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    r = p.add_run("EcoCart AI System")
+    r.font.name=TNR; r.font.size=Pt(24); r.font.bold=True
+    p.paragraph_format.space_after = Pt(8)
+
+    p2 = doc.add_paragraph()
+    p2.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    r2 = p2.add_run("Technical Report — TABA Section II")
+    r2.font.name=TNR; r2.font.size=Pt(14)
+    p2.paragraph_format.space_after = Pt(20)
+
+    for line in ["National College of Ireland",
+                 "MSc Artificial Intelligence",
+                 "Fundamentals of Artificial Intelligence", "May 2026"]:
+        lp = doc.add_paragraph(); lp.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        lr = lp.add_run(line); lr.font.name=TNR; lr.font.size=Pt(12)
+        lp.paragraph_format.space_after = Pt(4)
+
+    SP()
+    lnk = doc.add_paragraph(); lnk.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    lr2 = lnk.add_run("Live Demo: https://esvanth-ecocart-ai.streamlit.app")
+    lr2.font.name=TNR; lr2.font.size=Pt(11); lr2.font.bold=True
+    lr2.font.color.rgb = RGBColor(37,99,235)
+    doc.add_page_break()
+
+    # ── task 2 ────────────────────────────────────────────────────────────────
+    H("Task 2 — Customer Segmentation & Bias Mitigation")
+    P("Running task2_segmentation.py produced the following output:")
+    if t2_text:
+        CODE(t2_text)
+    SP()
+    IMG("output/bias_before_after.png",
+        "Figure 1: Customer clusters before and after bias mitigation")
+    SP()
+    IMG("output/disparate_impact.png",
+        "Figure 2: Disparate Impact and High Value rates before and after fix")
+    SP()
+    P("Before the fix: 0.0% of rural customers were in High Value (DI = 0.0 — biased). "
+      "After the fix: 57.3% of rural customers are in High Value (DI = 0.847 — fair, above 0.80 threshold).")
+    doc.add_page_break()
+
+    # ── task 3 ────────────────────────────────────────────────────────────────
+    H("Tasks 3 & 4 — Route Optimisation and Algorithm Comparison")
+    P("Running task3_4_routing.py produced the following output:")
+    if t3_text:
+        CODE(t3_text)
+    SP()
+    IMG("output/network_map.png",
+        "Figure 3: EcoCart 20-node delivery network")
+    SP()
+    IMG("output/algo_comparison.png",
+        "Figure 4: A* vs IDA* comparison across urban and rural routes")
+    SP()
+    IMG("output/green_vs_fast.png",
+        "Figure 5: Fastest route vs lowest CO₂ route comparison")
+    SP()
+    P("A* found the optimal path on every route with the fewest nodes expanded. "
+      "DFS was the only algorithm that did not find the shortest path. "
+      "Both A* and IDA* found identical optimal paths — A* is faster on small graphs, "
+      "IDA* uses less memory and is better suited for large-scale networks.")
+    doc.add_page_break()
+
+    # ── task 5 ────────────────────────────────────────────────────────────────
+    H("Task 5 — Demand Forecasting with Machine Learning")
+    P("Running task5_forecasting.py produced the following output:")
+    if t5_text:
+        CODE(t5_text)
+    SP()
+    IMG("output/forecast.png",
+        "Figure 6: Actual vs predicted daily sales on the 140-day test set")
+    SP()
+    IMG("output/residuals.png",
+        "Figure 7: Residuals for Linear Regression and Random Forest")
+    SP()
+    IMG("output/feature_importance.png",
+        "Figure 8: Random Forest feature importance — lag_7 is the strongest predictor")
+    SP()
+    P("Linear Regression: MAE=9.62, RMSE=12.38, R²=0.762, MAPE=9.41%. "
+      "Random Forest: MAE=9.75, RMSE=13.50, R²=0.716, MAPE=9.43%. "
+      "Linear Regression performed slightly better on this dataset. "
+      "The top predictors were lag_7 (same weekday last week), lag_14, and is_promo.")
+    doc.add_page_break()
+
+    # ── references ─────────────────────────────────────────────────────────────
+    H("References")
+    refs = [
+        "[1]  S. Russell and P. Norvig, Artificial Intelligence: A Modern Approach, 4th ed. Hoboken, NJ: Pearson, 2020.",
+        "[2]  F. Pedregosa et al., \"Scikit-learn: Machine Learning in Python,\" JMLR, vol. 12, pp. 2825-2830, 2011.",
+        "[3]  M. Feldman et al., \"Certifying and Removing Disparate Impact,\" in Proc. ACM SIGKDD, 2015.",
+        "[4]  P. E. Hart, N. J. Nilsson, and B. Raphael, \"A Formal Basis for the Heuristic Determination of Minimum Cost Paths,\" IEEE Trans. Syst. Sci. Cybern., vol. 4, no. 2, pp. 100-107, 1968.",
+    ]
+    for ref in refs:
+        p = doc.add_paragraph(ref)
+        p.paragraph_format.space_after = Pt(5)
+        p.paragraph_format.left_indent = Inches(0.3)
+        p.paragraph_format.first_line_indent = Inches(-0.3)
+        for r in p.runs: r.font.name=TNR; r.font.size=Pt(11)
+
+    buf = io.BytesIO()
+    doc.save(buf)
+    buf.seek(0)
+    return buf
 
 # ── page config ───────────────────────────────────────────────────────────────
 st.set_page_config(page_title="EcoCart AI", layout="wide",
@@ -94,15 +252,36 @@ with st.sidebar:
 5. Read the *What does this tell us?* section
 """)
     st.divider()
-    st.markdown("**Tasks covered:**")
-    st.markdown("🤖 Task 1 — AI Agent Types")
-    st.markdown("⚖️ Task 2 — Bias in Segmentation")
-    st.markdown("🗺️ Task 3 — Search Algorithms")
-    st.markdown("📊 Task 4 — A* vs IDA* Benchmark")
-    st.markdown("📈 Task 5 — Demand Forecasting")
-    st.markdown("💼 Task 6 — Business Case")
+
+    t2_done = st.session_state.get("t2_done", False)
+    t3_done = st.session_state.get("t3_done", False)
+    t5_done = st.session_state.get("t5_done", False)
+
+    st.markdown("**Task status:**")
+    st.markdown(f"{'✅' if t2_done else '⬜'} Task 2 — Bias & Segmentation")
+    st.markdown(f"{'✅' if t3_done else '⬜'} Task 3 — Route Algorithms")
+    st.markdown(f"{'✅' if t5_done else '⬜'} Task 5 — Demand Forecasting")
     st.divider()
-    st.caption("All outputs in Tasks 2–5 are generated by running the actual task Python scripts.")
+
+    st.markdown("**Download Report**")
+    if t2_done or t3_done or t5_done:
+        report_buf = _build_report(
+            st.session_state.get("t2_text",""),
+            st.session_state.get("t3_text",""),
+            st.session_state.get("t5_text",""),
+        )
+        st.download_button(
+            label="⬇  Download .docx report",
+            data=report_buf,
+            file_name="EcoCart_Report.docx",
+            mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+            use_container_width=True,
+        )
+        st.caption("Report includes all outputs and charts from completed tasks.")
+    else:
+        st.caption("Run Tasks 2, 3 and 5 first — download button will appear here.")
+    st.divider()
+    st.caption("All outputs are from the actual task Python scripts.")
 
 # ── header ────────────────────────────────────────────────────────────────────
 st.markdown("<h2 style='margin:0 0 16px;color:#1e293b'>EcoCart AI System</h2>",
@@ -306,6 +485,7 @@ exists and applies a fix to make the results fair.
 
         with st.spinner("Running task2_segmentation.py..."):
             t2_output = _run_task2()
+        st.session_state["t2_text"] = t2_output
 
         st.markdown("<div class='step-box'><span class='step-num'>2</span>"
                     "<b>Terminal output from task2_segmentation.py</b></div>",
@@ -376,6 +556,7 @@ how each algorithm explores the network step by step.
 
         with st.spinner("Running task3_4_routing.py..."):
             t3_output = _run_task3()
+        st.session_state["t3_text"] = t3_output
 
         st.markdown("<div class='step-box'><span class='step-num'>2</span>"
                     "<b>Terminal output from task3_4_routing.py</b></div>",
@@ -664,6 +845,7 @@ on 140 unseen test days.
 
         with st.spinner("Running task5_forecasting.py..."):
             t5_output = _run_task5()
+        st.session_state["t5_text"] = t5_output
 
         st.markdown("<div class='step-box'><span class='step-num'>2</span>"
                     "<b>Terminal output from task5_forecasting.py</b></div>",
