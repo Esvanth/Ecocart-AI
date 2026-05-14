@@ -388,10 +388,14 @@ with T1:
     ag_speed = cb5.slider("Speed", 1, 8, 3, format="%dx",
                            label_visibility="collapsed", key="ag_speed")
 
-    # step slider — key="ag_stp" binds directly to session state
-    st.slider("Step", 0, mx, key="ag_stp",
-              format="Stop %d",
-              help="Drag to jump to any stop in the route")
+    # step slider — use value= so auto-play can write to ag_stp freely
+    new_stp = st.slider("Step", 0, mx,
+                        value=st.session_state["ag_stp"],
+                        format="Stop %d",
+                        help="Drag to jump to any stop in the route")
+    if new_stp != st.session_state["ag_stp"]:
+        st.session_state["ag_stp"] = new_stp
+        st.session_state["ag_play"] = False
 
     stp = st.session_state["ag_stp"]
     path_sf = route[:stp+1]
@@ -710,9 +714,13 @@ with T3:
             if st.session_state["rp"] >= max_rp: st.session_state["rp"]=0
             st.session_state["rp_pl"] = not st.session_state["rp_pl"]; st.rerun()
 
-        # slider — key="rp" binds directly to session state
-        st.slider("Nodes explored", 0, max_rp, key="rp",
-                  help="Drag to replay how the algorithm searches node by node")
+        # slider — use value= so auto-play can write to rp freely
+        new_rp = st.slider("Nodes explored", 0, max_rp,
+                           value=st.session_state["rp"],
+                           help="Drag to replay how the algorithm searches node by node")
+        if new_rp != st.session_state["rp"]:
+            st.session_state["rp"]    = new_rp
+            st.session_state["rp_pl"] = False
 
         rp   = st.session_state["rp"]
         done = (rp == max_rp)
