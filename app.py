@@ -672,15 +672,54 @@ with T3:
                 if nb not in seen: seen.add(nb); q.append((nb,p+[nb]))
         return None,0.0,expl
 
+    def _dfs(s,g):
+        stack=[(s,[s])]; seen={s}; expl=[]
+        while stack:
+            n,p=stack.pop(); expl.append(n)
+            if n==g: return p,round(sum(_ew(p[i],p[i+1]) for i in range(len(p)-1)),2),expl
+            for nb,_ in reversed(ADJ[n]):
+                if nb not in seen: seen.add(nb); stack.append((nb,p+[nb]))
+        return None,0.0,expl
+
+    def _idastar(s,g):
+        h=lambda n:_nd(n,g); expl=[]; path=[s]
+        def search(gc,bound):
+            n=path[-1]; f=gc+h(n)
+            if f>bound: return f
+            if n==g: return -1
+            expl.append(n); mn=math.inf
+            for nb,w in sorted(ADJ[n],key=lambda x:h(x[0])):
+                if nb not in path:
+                    path.append(nb); t=search(gc+w,bound)
+                    if t==-1: return -1
+                    if t<mn: mn=t
+                    path.pop()
+            return mn
+        bound=h(s)
+        while True:
+            t=search(0,bound)
+            if t==-1:
+                return list(path),round(sum(_ew(path[i],path[i+1]) for i in range(len(path)-1)),2),expl
+            if t==math.inf: return None,0.0,expl
+            bound=t
+
+    ALGO_DESC = {
+        "A*":    "Guided heuristic — expands fewest nodes, always optimal",
+        "BFS":   "Level-by-level — optimal shortest hops, explores broadly",
+        "DFS":   "Deep dive — fast but not guaranteed to find shortest path",
+        "IDA*":  "Iterative A* — optimal like A*, uses almost no memory",
+    }
+
     # config row
-    cfg1, cfg2, cfg3, cfg4 = st.columns([1.5, 1.5, 1.5, 1.5])
+    cfg1, cfg2, cfg3, cfg4 = st.columns([1.2, 1.2, 2.2, 1.2])
     all_n = list(NODES_R.keys())
     sn = cfg1.selectbox("Start", all_n, index=0,  key="r_sn")
     en = cfg2.selectbox("End",   all_n, index=19, key="r_en")
-    algo = cfg3.radio("Algorithm", ["A*","BFS"], key="r_algo", horizontal=True)
+    algo = cfg3.radio("Algorithm", ["A*","BFS","DFS","IDA*"], key="r_algo", horizontal=True)
     rp_speed = cfg4.slider("Speed", 1, 8, 3, format="%dx", key="rp_spd")
+    st.caption(f"**{algo}** — {ALGO_DESC[algo]}")
 
-    fn = _astar if algo=="A*" else _bfs
+    fn = {"A*":_astar, "BFS":_bfs, "DFS":_dfs, "IDA*":_idastar}[algo]
     if sn != en:
         path_r, cost_r, expl_r = fn(sn, en)
     else:
