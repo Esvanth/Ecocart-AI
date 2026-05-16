@@ -355,7 +355,6 @@ with st.sidebar:
 # ── header ────────────────────────────────────────────────────────────────────
 st.markdown("""
 <div class='hero'>
-  <div class='hero-badge'>🎓 NCI &nbsp;·&nbsp; MSc Artificial Intelligence &nbsp;·&nbsp; Foundations of AI 2026</div>
   <div class='hero-title'>EcoCart AI System</div>
   <div class='hero-sub'>Six AI tasks built to solve one real logistics problem — every chart and number runs from actual Python scripts</div>
   <div class='hero-stats'>
