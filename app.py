@@ -443,9 +443,14 @@ T1, T2, T3, T4, T5, T6 = st.tabs([
 with T1:
     st.markdown("""
     <div class='task-card'>
-      <div class='task-icon' style='background:#eef2ff;'>🤖</div>
+      <div class='task-icon' style='background:linear-gradient(135deg,#4f46e5,#6366f1);box-shadow:0 6px 20px rgba(99,102,241,.35);'>
+        <svg width="24" height="24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+          <rect x="9" y="9" width="6" height="6"/><rect x="5" y="5" width="14" height="14" rx="2"/>
+          <path d="M9 1v4M15 1v4M9 19v4M15 19v4M1 9h4M1 15h4M19 9h4M19 15h4"/>
+        </svg>
+      </div>
       <div>
-        <div class='task-title'>Three agents, one delivery map — completely different decisions</div>
+        <div class='task-title'>Three agents, one delivery map. Completely different decisions.</div>
         <div class='task-desc'>Reactive rushes to the nearest stop. Goal-Based plans the full route before
         leaving using 2-opt optimisation. Utility-Based scores stops by urgency ÷ distance and chases
         high-priority ones first. Same 9-stop map, very different outcomes.
@@ -684,9 +689,14 @@ with T1:
 with T2:
     st.markdown("""
     <div class='task-card'>
-      <div class='task-icon' style='background:#fffbeb;'>⚖️</div>
+      <div class='task-icon' style='background:linear-gradient(135deg,#d97706,#f59e0b);box-shadow:0 6px 20px rgba(217,119,6,.35);'>
+        <svg width="24" height="24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          <polyline points="9 12 11 14 15 10"/>
+        </svg>
+      </div>
       <div>
-        <div class='task-title'>The model was being unfair — and nobody noticed until now</div>
+        <div class='task-title'>The model was being unfair. Nobody noticed until now.</div>
         <div class='task-desc'>Not one rural customer made it to High Value. Zero. The K-Means clustering
         was biased from the start because EcoCart launched in cities first. This task measures the bias
         using <b>Disparate Impact</b> (threshold ≥ 0.80) and applies a three-step fix: oversample rural
@@ -745,9 +755,14 @@ with T2:
 with T3:
     st.markdown("""
     <div class='task-card'>
-      <div class='task-icon' style='background:#eff6ff;'>🗺️</div>
+      <div class='task-icon' style='background:linear-gradient(135deg,#0284c7,#38bdf8);box-shadow:0 6px 20px rgba(2,132,199,.35);'>
+        <svg width="24" height="24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+          <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/>
+          <line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/>
+        </svg>
+      </div>
       <div>
-        <div class='task-title'>Four algorithms, one delivery network — which one wins?</div>
+        <div class='task-title'>Four algorithms, one delivery network. Which one wins?</div>
         <div class='task-desc'>BFS, DFS, A*, and IDA* all search for the shortest route on a
         custom-built 20-node urban/rural network. Some find the optimal path, one doesn't.
         The best does it with the fewest node expansions. Press <b>Run</b> for full results,
@@ -1045,7 +1060,12 @@ with T3:
 with T4:
     st.markdown("""
     <div class='task-card'>
-      <div class='task-icon' style='background:#f0f4ff;'>📊</div>
+      <div class='task-icon' style='background:linear-gradient(135deg,#7c3aed,#a78bfa);box-shadow:0 6px 20px rgba(124,58,237,.35);'>
+        <svg width="24" height="24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+          <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/>
+          <line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/>
+        </svg>
+      </div>
       <div>
         <div class='task-title'>Same shortest path, completely different strategies</div>
         <div class='task-desc'>A* remembers every node it visits — fast, but memory grows with the network.
@@ -1112,7 +1132,12 @@ with T4:
 with T5:
     st.markdown("""
     <div class='task-card'>
-      <div class='task-icon' style='background:#f0fdf4;'>📈</div>
+      <div class='task-icon' style='background:linear-gradient(135deg,#059669,#34d399);box-shadow:0 6px 20px rgba(5,150,105,.35);'>
+        <svg width="24" height="24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+          <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
+          <polyline points="17 6 23 6 23 12"/>
+        </svg>
+      </div>
       <div>
         <div class='task-title'>Can a simple model beat 200 decision trees?</div>
         <div class='task-desc'>Linear Regression (fast, transparent) goes head-to-head against
@@ -1180,7 +1205,13 @@ with T5:
 with T6:
     st.markdown("""
     <div class='task-card'>
-      <div class='task-icon' style='background:#fffbeb;'>💼</div>
+      <div class='task-icon' style='background:linear-gradient(135deg,#ea580c,#fb923c);box-shadow:0 6px 20px rgba(234,88,12,.35);'>
+        <svg width="24" height="24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+          <rect x="2" y="7" width="20" height="14" rx="2"/>
+          <path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/>
+          <line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/>
+        </svg>
+      </div>
       <div>
         <div class='task-title'>What does all of this actually save the business?</div>
         <div class='task-desc'>This tab turns the technical results into a live financial model —
