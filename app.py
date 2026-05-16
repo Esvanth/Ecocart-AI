@@ -354,8 +354,35 @@ div[data-testid="stButton"] > button[kind="primary"]:hover {
 /* Dataframe */
 .stDataFrame { border-radius: 14px !important; overflow: hidden !important; box-shadow: 0 2px 12px rgba(0,0,0,.04) !important; }
 
-/* Expander */
-summary { border-radius: 10px !important; font-size: .8rem !important; font-weight: 600 !important; }
+/* Expander - hide default arrow, style cleanly */
+details > summary { list-style: none !important; }
+details > summary::-webkit-details-marker { display: none !important; }
+details > summary::marker { display: none !important; }
+[data-testid="stExpanderToggleIcon"] { display: none !important; }
+[data-testid="stExpander"] details summary {
+  background: #f8fafc !important;
+  border-radius: 12px !important;
+  padding: 11px 18px !important;
+  font-size: .81rem !important;
+  font-weight: 600 !important;
+  color: #475569 !important;
+  border: 1px solid #e2e8f0 !important;
+  cursor: pointer !important;
+}
+[data-testid="stExpander"] details summary:hover {
+  background: #f1f5f9 !important;
+  color: #0f172a !important;
+}
+[data-testid="stExpander"] details summary::after {
+  content: '▾';
+  float: right;
+  color: #94a3b8;
+  font-size: .9rem;
+  transition: transform .2s;
+}
+[data-testid="stExpander"] details[open] summary::after {
+  transform: rotate(-180deg);
+}
 
 /* Slider */
 .stSlider [data-testid="stTickBarMin"], .stSlider [data-testid="stTickBarMax"] { font-size: .72rem !important; }
