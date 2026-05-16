@@ -5,5 +5,3 @@ __pycache__/
 *.png
 *.docx
 *.pdf
-.claude/
-EcoCart_Report.docx
