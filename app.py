@@ -137,13 +137,13 @@ st.markdown("""
 
 *, *::before, *::after { font-family: 'Inter', -apple-system, sans-serif !important; box-sizing: border-box; }
 
-/* ── Base ── */
+/* Base */
 [data-testid="stAppViewContainer"] { background: #f0f2f8 !important; }
 .block-container { padding: .8rem 1.6rem 4rem !important; max-width: 1300px !important; }
 #MainMenu, footer, header { visibility: hidden; }
 ::-webkit-scrollbar { width: 4px; } ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 8px; }
 
-/* ── Tabs ── */
+/* Tabs */
 .stTabs [data-baseweb="tab-list"] {
   background: #fff; border-radius: 18px; padding: 6px; gap: 4px;
   box-shadow: 0 4px 30px rgba(0,0,0,.07), 0 1px 3px rgba(0,0,0,.04);
@@ -159,7 +159,7 @@ st.markdown("""
   color: #fff !important; box-shadow: 0 4px 14px rgba(30,41,59,.3) !important;
 }
 
-/* ── Hero ── */
+/* Hero */
 .hero {
   background: linear-gradient(140deg, #0a0e1a 0%, #0f1c35 45%, #091428 100%);
   border-radius: 22px; padding: 34px 38px 30px; margin-bottom: 22px;
@@ -208,7 +208,7 @@ st.markdown("""
   text-transform: uppercase; letter-spacing: .1em; margin-top: 5px;
 }
 
-/* ── Task cards ── */
+/* Task cards */
 .task-card {
   background: #fff; border-radius: 18px; padding: 20px 22px;
   margin-bottom: 18px; border: 1px solid #e2e8f0;
@@ -227,7 +227,7 @@ st.markdown("""
 }
 .task-desc { font-size: .81rem; color: #64748b; line-height: 1.7; }
 
-/* ── Insight ── */
+/* Insight */
 .insight {
   background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
   border: 1px solid #86efac; border-radius: 16px;
@@ -244,7 +244,7 @@ st.markdown("""
   box-shadow: 0 3px 8px rgba(5,150,105,.35);
 }
 
-/* ── Warn ── */
+/* Warn */
 .warn-box {
   background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
   border: 1px solid #fcd34d; border-radius: 16px;
@@ -261,7 +261,7 @@ st.markdown("""
   box-shadow: 0 3px 8px rgba(217,119,6,.35);
 }
 
-/* ── Terminal ── */
+/* Terminal */
 .term { border-radius: 14px; overflow: hidden; margin: 10px 0; box-shadow: 0 8px 32px rgba(0,0,0,.2); }
 .term-top { background: #1e293b; padding: 9px 16px; display: flex; gap: 7px; align-items: center; }
 .dot { width: 11px; height: 11px; border-radius: 50%; }
@@ -272,7 +272,7 @@ st.markdown("""
   white-space: pre-wrap; line-height: 1.8; max-height: 280px; overflow-y: auto;
 }
 
-/* ── Section heading ── */
+/* Section heading */
 .sec-head {
   font-size: .9rem; font-weight: 800; color: #0f172a;
   letter-spacing: -.02em; margin: 20px 0 12px;
@@ -280,18 +280,18 @@ st.markdown("""
 }
 .sec-head::after { content: ''; flex: 1; height: 2px; background: linear-gradient(90deg, #e2e8f0, transparent); border-radius: 2px; }
 
-/* ── Slabel ── */
+/* Slabel */
 .slabel {
   font-size: .67rem; font-weight: 800; color: #94a3b8;
   text-transform: uppercase; letter-spacing: .11em; margin-bottom: 10px;
 }
 
-/* ── Legend ── */
+/* Legend */
 .leg { display: flex; gap: 14px; flex-wrap: wrap; margin: 10px 0; }
 .li { display: flex; align-items: center; gap: 6px; font-size: .75rem; color: #475569; font-weight: 600; }
 .ld { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
 
-/* ── Metrics ── */
+/* Metrics */
 div[data-testid="metric-container"] {
   background: #fff; border-radius: 16px; padding: 18px 20px;
   border: 1px solid #e2e8f0; box-shadow: 0 4px 20px rgba(0,0,0,.05);
@@ -301,7 +301,7 @@ div[data-testid="metric-container"]:hover { transform: translateY(-3px); box-sha
 div[data-testid="metric-container"] label { font-size: .68rem !important; font-weight: 800 !important; color: #94a3b8 !important; text-transform: uppercase; letter-spacing: .08em; }
 div[data-testid="metric-container"] [data-testid="stMetricValue"] { font-size: 1.5rem !important; font-weight: 900 !important; color: #0f172a !important; letter-spacing: -.03em; }
 
-/* ── Buttons ── */
+/* Buttons */
 .stButton > button {
   border-radius: 12px !important; font-weight: 700 !important;
   font-size: .82rem !important; letter-spacing: .01em !important;
@@ -318,7 +318,7 @@ div[data-testid="stButton"] > button[kind="primary"]:hover {
   transform: translateY(-1px) !important;
 }
 
-/* ── Sidebar ── */
+/* Sidebar */
 [data-testid="stSidebar"] {
   background: linear-gradient(180deg, #fff 0%, #f8fafc 100%) !important;
   border-right: 1px solid #e2e8f0 !important;
@@ -351,13 +351,13 @@ div[data-testid="stButton"] > button[kind="primary"]:hover {
 .sb-done { background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; }
 .sb-pending { background: #f8fafc; color: #94a3b8; border: 1px solid #e8edf5; }
 
-/* ── Dataframe ── */
+/* Dataframe */
 .stDataFrame { border-radius: 14px !important; overflow: hidden !important; box-shadow: 0 2px 12px rgba(0,0,0,.04) !important; }
 
-/* ── Expander ── */
+/* Expander */
 summary { border-radius: 10px !important; font-size: .8rem !important; font-weight: 600 !important; }
 
-/* ── Slider ── */
+/* Slider */
 .stSlider [data-testid="stTickBarMin"], .stSlider [data-testid="stTickBarMax"] { font-size: .72rem !important; }
 </style>
 """, unsafe_allow_html=True)
@@ -404,12 +404,27 @@ st.markdown("""
 <div class='hero'>
   <div class='hero-title'>EcoCart AI System</div>
   <div class='hero-sub'>Six AI tasks built to solve one real logistics problem — every chart and number runs from actual Python scripts</div>
-  <div class='hero-stats'>
-    <div class='hero-stat'><span class='hero-stat-num'>6</span><span class='hero-stat-lbl'>Tasks</span></div>
-    <div class='hero-stat'><span class='hero-stat-num'>4</span><span class='hero-stat-lbl'>Algorithms</span></div>
-    <div class='hero-stat'><span class='hero-stat-num'>730</span><span class='hero-stat-lbl'>Days Data</span></div>
-    <div class='hero-stat'><span class='hero-stat-num'>20</span><span class='hero-stat-lbl'>Node Network</span></div>
-    <div class='hero-stat'><span class='hero-stat-num'>0.847</span><span class='hero-stat-lbl'>DI Score</span></div>
+  <div style='display:flex;gap:10px;flex-wrap:wrap;'>
+    <div style='background:rgba(96,165,250,.13);border:1px solid rgba(96,165,250,.22);border-radius:14px;padding:12px 20px;text-align:center;min-width:80px;'>
+      <div style='color:#60a5fa;font-size:1.6rem;font-weight:900;letter-spacing:-.04em;line-height:1;'>6</div>
+      <div style='color:#475569;font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-top:5px;'>Tasks</div>
+    </div>
+    <div style='background:rgba(167,139,250,.13);border:1px solid rgba(167,139,250,.22);border-radius:14px;padding:12px 20px;text-align:center;min-width:80px;'>
+      <div style='color:#a78bfa;font-size:1.6rem;font-weight:900;letter-spacing:-.04em;line-height:1;'>4</div>
+      <div style='color:#475569;font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-top:5px;'>Algorithms</div>
+    </div>
+    <div style='background:rgba(251,191,36,.13);border:1px solid rgba(251,191,36,.22);border-radius:14px;padding:12px 20px;text-align:center;min-width:80px;'>
+      <div style='color:#fbbf24;font-size:1.6rem;font-weight:900;letter-spacing:-.04em;line-height:1;'>730</div>
+      <div style='color:#475569;font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-top:5px;'>Days Data</div>
+    </div>
+    <div style='background:rgba(52,211,153,.13);border:1px solid rgba(52,211,153,.22);border-radius:14px;padding:12px 20px;text-align:center;min-width:80px;'>
+      <div style='color:#34d399;font-size:1.6rem;font-weight:900;letter-spacing:-.04em;line-height:1;'>20</div>
+      <div style='color:#475569;font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-top:5px;'>Node Network</div>
+    </div>
+    <div style='background:rgba(34,211,238,.13);border:1px solid rgba(34,211,238,.22);border-radius:14px;padding:12px 20px;text-align:center;min-width:80px;'>
+      <div style='color:#22d3ee;font-size:1.6rem;font-weight:900;letter-spacing:-.04em;line-height:1;'>0.847</div>
+      <div style='color:#475569;font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-top:5px;'>DI Score</div>
+    </div>
   </div>
 </div>""", unsafe_allow_html=True)
 
