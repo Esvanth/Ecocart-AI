@@ -1,5 +1,5 @@
 """
-EcoCart AI System — Streamlit App
+EcoCart AI System - Streamlit App
 NCI MSCAI | Fundamentals of AI TABA 2026
 """
 
@@ -59,7 +59,7 @@ def _build_report(t2_text, t3_text, t5_text):
     r = p.add_run("EcoCart AI System"); r.font.name=TNR; r.font.size=Pt(24); r.font.bold=True
     p.paragraph_format.space_after = Pt(8)
     p2 = doc.add_paragraph(); p2.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    r2 = p2.add_run("Technical Report — TABA Section II"); r2.font.name=TNR; r2.font.size=Pt(14)
+    r2 = p2.add_run("Technical Report - TABA Section II"); r2.font.name=TNR; r2.font.size=Pt(14)
     p2.paragraph_format.space_after = Pt(20)
     for line in ["National College of Ireland","MSc Artificial Intelligence",
                  "Fundamentals of Artificial Intelligence","May 2026"]:
@@ -72,14 +72,14 @@ def _build_report(t2_text, t3_text, t5_text):
     lr2.font.name=TNR; lr2.font.size=Pt(11); lr2.font.bold=True
     lr2.font.color.rgb = RGBColor(37,99,235)
     doc.add_page_break()
-    H("Task 2 — Customer Segmentation & Bias Mitigation")
+    H("Task 2 - Customer Segmentation & Bias Mitigation")
     P("Running task2_segmentation.py produced the following output:")
     if t2_text: CODE(t2_text)
     SP(); IMG("output/bias_before_after.png","Figure 1: Customer clusters before and after bias mitigation")
     SP(); IMG("output/disparate_impact.png","Figure 2: Disparate Impact and High Value rates before and after fix")
     SP(); P("Before: DI=0.0 (biased). After: DI=0.847 (fair, above 0.80).")
     doc.add_page_break()
-    H("Tasks 3 & 4 — Route Optimisation and Algorithm Comparison")
+    H("Tasks 3 & 4 - Route Optimisation and Algorithm Comparison")
     P("Running task3_4_routing.py produced the following output:")
     if t3_text: CODE(t3_text)
     SP(); IMG("output/network_map.png","Figure 3: EcoCart 20-node delivery network")
@@ -87,7 +87,7 @@ def _build_report(t2_text, t3_text, t5_text):
     SP(); IMG("output/green_vs_fast.png","Figure 5: Fastest vs lowest CO2 route")
     SP(); P("A* found the optimal path on every route with fewest nodes expanded.")
     doc.add_page_break()
-    H("Task 5 — Demand Forecasting with Machine Learning")
+    H("Task 5 - Demand Forecasting with Machine Learning")
     P("Running task5_forecasting.py produced the following output:")
     if t5_text: CODE(t5_text)
     SP(); IMG("output/forecast.png","Figure 6: Actual vs predicted daily sales")
@@ -375,9 +375,9 @@ with st.sidebar:
 
     st.markdown("<div class='sb-section'>How to use</div>", unsafe_allow_html=True)
     for n, t in [("1","Pick a task tab above"),
-                 ("2","Tasks 2, 3, 5 — press Run"),
-                 ("3","Tasks 1 & 3 — press Play"),
-                 ("4","Task 6 — adjust the sliders")]:
+                 ("2","Tasks 2, 3, 5 - press Run"),
+                 ("3","Tasks 1 & 3 - press Play"),
+                 ("4","Task 6 - adjust the sliders")]:
         st.markdown(f"""<div class='sb-step'>
           <div class='sb-num'>{n}</div>
           <span class='sb-step-txt'>{t}</span></div>""", unsafe_allow_html=True)
@@ -387,9 +387,9 @@ with st.sidebar:
     t3_done = st.session_state.get("t3_done", False)
     t5_done = st.session_state.get("t5_done", False)
     for lbl, icon, done in [
-        ("Task 2 — Bias", "⚖️", t2_done),
-        ("Task 3 — Routes", "🗺️", t3_done),
-        ("Task 5 — Forecast", "📈", t5_done),
+        ("Task 2 - Bias", "⚖️", t2_done),
+        ("Task 3 - Routes", "🗺️", t3_done),
+        ("Task 5 - Forecast", "📈", t5_done),
     ]:
         cls = "sb-done" if done else "sb-pending"
         mark = "✓" if done else "·"
@@ -403,50 +403,49 @@ with st.sidebar:
 st.markdown("""
 <div class='hero'>
   <div class='hero-title'>EcoCart AI System</div>
-  <div class='hero-sub'>Six AI tasks built to solve one real logistics problem — every chart and number runs from actual Python scripts</div>
-  <div style='display:flex;gap:10px;flex-wrap:wrap;'>
-    <div style='background:rgba(96,165,250,.13);border:1px solid rgba(96,165,250,.22);border-radius:14px;padding:12px 20px;text-align:center;min-width:80px;'>
-      <div style='color:#60a5fa;font-size:1.6rem;font-weight:900;letter-spacing:-.04em;line-height:1;'>6</div>
-      <div style='color:#475569;font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-top:5px;'>Tasks</div>
+  <div class='hero-sub'>Six AI tasks built to solve one real logistics problem - every chart and number runs from actual Python scripts</div>
+  <div style='display:flex;gap:10px;flex-wrap:wrap;margin-top:4px;'>
+    <div style='background:rgba(96,165,250,.18);border:1.5px solid rgba(96,165,250,.4);border-radius:14px;padding:14px 22px;text-align:center;min-width:86px;backdrop-filter:blur(8px);'>
+      <div style='color:#93c5fd;font-size:1.7rem;font-weight:900;letter-spacing:-.04em;line-height:1;'>6</div>
+      <div style='color:#7dd3fc;font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-top:6px;'>Tasks</div>
     </div>
-    <div style='background:rgba(167,139,250,.13);border:1px solid rgba(167,139,250,.22);border-radius:14px;padding:12px 20px;text-align:center;min-width:80px;'>
-      <div style='color:#a78bfa;font-size:1.6rem;font-weight:900;letter-spacing:-.04em;line-height:1;'>4</div>
-      <div style='color:#475569;font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-top:5px;'>Algorithms</div>
+    <div style='background:rgba(167,139,250,.18);border:1.5px solid rgba(167,139,250,.4);border-radius:14px;padding:14px 22px;text-align:center;min-width:86px;backdrop-filter:blur(8px);'>
+      <div style='color:#c4b5fd;font-size:1.7rem;font-weight:900;letter-spacing:-.04em;line-height:1;'>4</div>
+      <div style='color:#c4b5fd;font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-top:6px;'>Algorithms</div>
     </div>
-    <div style='background:rgba(251,191,36,.13);border:1px solid rgba(251,191,36,.22);border-radius:14px;padding:12px 20px;text-align:center;min-width:80px;'>
-      <div style='color:#fbbf24;font-size:1.6rem;font-weight:900;letter-spacing:-.04em;line-height:1;'>730</div>
-      <div style='color:#475569;font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-top:5px;'>Days Data</div>
+    <div style='background:rgba(251,191,36,.18);border:1.5px solid rgba(251,191,36,.4);border-radius:14px;padding:14px 22px;text-align:center;min-width:86px;backdrop-filter:blur(8px);'>
+      <div style='color:#fde68a;font-size:1.7rem;font-weight:900;letter-spacing:-.04em;line-height:1;'>730</div>
+      <div style='color:#fde68a;font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-top:6px;'>Days Data</div>
     </div>
-    <div style='background:rgba(52,211,153,.13);border:1px solid rgba(52,211,153,.22);border-radius:14px;padding:12px 20px;text-align:center;min-width:80px;'>
-      <div style='color:#34d399;font-size:1.6rem;font-weight:900;letter-spacing:-.04em;line-height:1;'>20</div>
-      <div style='color:#475569;font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-top:5px;'>Node Network</div>
+    <div style='background:rgba(52,211,153,.18);border:1.5px solid rgba(52,211,153,.4);border-radius:14px;padding:14px 22px;text-align:center;min-width:86px;backdrop-filter:blur(8px);'>
+      <div style='color:#6ee7b7;font-size:1.7rem;font-weight:900;letter-spacing:-.04em;line-height:1;'>20</div>
+      <div style='color:#6ee7b7;font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-top:6px;'>Node Network</div>
     </div>
-    <div style='background:rgba(34,211,238,.13);border:1px solid rgba(34,211,238,.22);border-radius:14px;padding:12px 20px;text-align:center;min-width:80px;'>
-      <div style='color:#22d3ee;font-size:1.6rem;font-weight:900;letter-spacing:-.04em;line-height:1;'>0.847</div>
-      <div style='color:#475569;font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-top:5px;'>DI Score</div>
+    <div style='background:rgba(34,211,238,.18);border:1.5px solid rgba(34,211,238,.4);border-radius:14px;padding:14px 22px;text-align:center;min-width:86px;backdrop-filter:blur(8px);'>
+      <div style='color:#67e8f9;font-size:1.7rem;font-weight:900;letter-spacing:-.04em;line-height:1;'>0.847</div>
+      <div style='color:#67e8f9;font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-top:6px;'>DI Score</div>
     </div>
   </div>
 </div>""", unsafe_allow_html=True)
 
 T1, T2, T3, T4, T5, T6 = st.tabs([
-    "🤖 Task 1 — AI Agents",
-    "⚖️  Task 2 — Bias",
-    "🗺️  Task 3 — Routes",
-    "📊 Task 4 — A* vs IDA*",
-    "📈 Task 5 — Forecast",
-    "💼 Task 6 — Business",
+    "🤖 Task 1 - AI Agents",
+    "⚖️  Task 2 - Bias",
+    "🗺️  Task 3 - Routes",
+    "📊 Task 4 - A* vs IDA*",
+    "📈 Task 5 - Forecast",
+    "💼 Task 6 - Business",
 ])
 
 # ══════════════════════════════════════════════════════════════════════════════
-#  TASK 1 — AI AGENTS  (step-by-step animated map)
+#  TASK 1 - AI AGENTS  (step-by-step animated map)
 # ══════════════════════════════════════════════════════════════════════════════
 with T1:
     st.markdown("""
     <div class='task-card'>
-      <div class='task-icon' style='background:linear-gradient(135deg,#4f46e5,#6366f1);box-shadow:0 6px 20px rgba(99,102,241,.35);'>
+      <div class='task-icon' style='background:linear-gradient(135deg,#4f46e5,#818cf8);box-shadow:0 6px 20px rgba(99,102,241,.4);'>
         <svg width="24" height="24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-          <rect x="9" y="9" width="6" height="6"/><rect x="5" y="5" width="14" height="14" rx="2"/>
-          <path d="M9 1v4M15 1v4M9 19v4M15 19v4M1 9h4M1 15h4M19 9h4M19 15h4"/>
+          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
         </svg>
       </div>
       <div>
@@ -497,7 +496,7 @@ with T1:
     ROUTES = _get_routes()
     RCOLS  = {"Reactive Agent":BLUE, "Goal-Based Agent":GREEN, "Utility-Based Agent":AMBER}
     RDESC  = {
-        "Reactive Agent":     "No planning — just go to the nearest stop. Fast to decide, but the total route is often longer.",
+        "Reactive Agent":     "No planning - just go to the nearest stop. Fast to decide, but the total route is often longer.",
         "Goal-Based Agent":   "Plans the full route before moving using 2-opt optimisation. Always finds the shortest total distance.",
         "Utility-Based Agent":"Scores every stop by priority ÷ distance. Gets to the most urgent ★ stops first, not just the closest.",
     }
@@ -569,7 +568,7 @@ with T1:
     ag_speed = cb5.slider("Speed", 1, 8, 3, format="%dx",
                            label_visibility="collapsed", key="ag_speed")
 
-    # step slider — use value= so auto-play can write to ag_stp freely
+    # step slider - use value= so auto-play can write to ag_stp freely
     new_stp = st.slider("Step", 0, mx,
                         value=st.session_state["ag_stp"],
                         format="Stop %d",
@@ -606,7 +605,7 @@ with T1:
                 fig.add_trace(go.Scatter(x=[x1,x2,None],y=[y1,y2,None],mode="lines",
                     line=dict(color="#dde6f0",width=1.5),showlegend=False,hoverinfo="skip"))
 
-    # traveled path — drawn so far (thick animated line)
+    # traveled path - drawn so far (thick animated line)
     if len(path_sf) > 1:
         px=[STOPS[n][0] for n in path_sf]; py=[STOPS[n][1] for n in path_sf]
         fig.add_trace(go.Scatter(x=px,y=py,mode="lines",
@@ -621,9 +620,9 @@ with T1:
             text=[star+name.replace("Shop","").strip()],
             textposition="top center",textfont=dict(size=9,color="#94a3b8"),
             showlegend=False,
-            hovertemplate=f"<b>{name}</b><br>Priority {pri}/5 — not visited yet<extra></extra>"))
+            hovertemplate=f"<b>{name}</b><br>Priority {pri}/5 - not visited yet<extra></extra>"))
 
-    # visited nodes — show visit order number inside circle
+    # visited nodes - show visit order number inside circle
     for i,name in enumerate(path_sf):
         if name=="Depot" or name==route[stp]: continue
         nx,ny,pri=STOPS[name]
@@ -632,9 +631,9 @@ with T1:
             text=[str(i)],textposition="middle center",
             textfont=dict(size=10,color="#fff",family="monospace"),
             showlegend=False,
-            hovertemplate=f"<b>{name}</b><br>Stop #{i} — delivered ✓<extra></extra>"))
+            hovertemplate=f"<b>{name}</b><br>Stop #{i} - delivered ✓<extra></extra>"))
 
-    # current node — large, distinct, clearly highlighted
+    # current node - large, distinct, clearly highlighted
     cn=route[stp]; cx,cy,cpri=STOPS[cn]
     if cn!="Depot":
         star="★ " if cpri>=4 else ""
@@ -644,7 +643,7 @@ with T1:
             textposition="top center",
             textfont=dict(size=10,color=SLATE,family="system-ui",weight=700),
             showlegend=False,
-            hovertemplate=f"<b>{cn}</b><br>Delivering here now — Priority {cpri}/5<extra></extra>"))
+            hovertemplate=f"<b>{cn}</b><br>Delivering here now - Priority {cpri}/5<extra></extra>"))
 
     # depot (always on top)
     dx,dy,_=STOPS["Depot"]
@@ -684,15 +683,15 @@ with T1:
         st.session_state["ag_play"] = False
 
 # ══════════════════════════════════════════════════════════════════════════════
-#  TASK 2 — BIAS
+#  TASK 2 - BIAS
 # ══════════════════════════════════════════════════════════════════════════════
 with T2:
     st.markdown("""
     <div class='task-card'>
-      <div class='task-icon' style='background:linear-gradient(135deg,#d97706,#f59e0b);box-shadow:0 6px 20px rgba(217,119,6,.35);'>
+      <div class='task-icon' style='background:linear-gradient(135deg,#b45309,#f59e0b);box-shadow:0 6px 20px rgba(180,83,9,.4);'>
         <svg width="24" height="24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-          <polyline points="9 12 11 14 15 10"/>
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+          <circle cx="12" cy="12" r="3"/>
         </svg>
       </div>
       <div>
@@ -704,7 +703,7 @@ with T2:
       </div>
     </div>""", unsafe_allow_html=True)
 
-    run_t2 = st.button("▶  Run Task 2 — Segmentation & Bias Fix",
+    run_t2 = st.button("▶  Run Task 2 - Segmentation & Bias Fix",
                        type="primary", use_container_width=True, key="run_t2")
     if run_t2 or st.session_state.get("t2_done"):
         st.session_state["t2_done"] = True
@@ -738,27 +737,27 @@ with T2:
         with c2:
             if os.path.exists("output/disparate_impact.png"):
                 st.image("output/disparate_impact.png",
-                         caption="Fairness metrics — before vs after",
+                         caption="Fairness metrics - before vs after",
                          use_container_width=True)
 
         st.markdown("""
         <div class='insight'>
-          Before the fix, 0% of rural customers reached High Value — Disparate Impact was 0.0, a complete fairness failure.
+          Before the fix, 0% of rural customers reached High Value - Disparate Impact was 0.0, a complete fairness failure.
           After oversampling rural customers to match urban count, adjusting spend for the delivery cost premium (+€12),
-          and correcting frequency for order batching (×1.5), the Disparate Impact rose to <b>0.847</b> — above the 0.80 threshold.
+          and correcting frequency for order batching (×1.5), the Disparate Impact rose to <b>0.847</b> - above the 0.80 threshold.
           The model now treats both groups fairly.
         </div>""", unsafe_allow_html=True)
 
 # ══════════════════════════════════════════════════════════════════════════════
-#  TASK 3 — ROUTES  (run + animated exploration replay)
+#  TASK 3 - ROUTES  (run + animated exploration replay)
 # ══════════════════════════════════════════════════════════════════════════════
 with T3:
     st.markdown("""
     <div class='task-card'>
-      <div class='task-icon' style='background:linear-gradient(135deg,#0284c7,#38bdf8);box-shadow:0 6px 20px rgba(2,132,199,.35);'>
+      <div class='task-icon' style='background:linear-gradient(135deg,#0369a1,#38bdf8);box-shadow:0 6px 20px rgba(3,105,161,.4);'>
         <svg width="24" height="24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-          <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/>
-          <line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/>
+          <circle cx="6" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><circle cx="18" cy="6" r="3"/>
+          <path d="M6 9v6"/><path d="M9 6h6"/><path d="M9 6a9 9 0 009 9"/>
         </svg>
       </div>
       <div>
@@ -770,7 +769,7 @@ with T3:
       </div>
     </div>""", unsafe_allow_html=True)
 
-    run_t3 = st.button("▶  Run Task 3 — Route Optimisation",
+    run_t3 = st.button("▶  Run Task 3 - Route Optimisation",
                        type="primary", use_container_width=True, key="run_t3")
     if run_t3 or st.session_state.get("t3_done"):
         st.session_state["t3_done"] = True
@@ -810,16 +809,16 @@ with T3:
 
         st.markdown("""
         <div class='insight'>
-          A* found the shortest path (5.69 km) using only 7 node expansions — the most efficient result.
+          A* found the shortest path (5.69 km) using only 7 node expansions - the most efficient result.
           BFS found the same optimal path but needed 11 expansions. DFS was the only algorithm that got
           it wrong, returning a 6.84 km suboptimal route because it dives deep without comparing alternatives.
-          IDA* also found 5.69 km but needed 43 expansions — its advantage is near-zero memory use,
+          IDA* also found 5.69 km but needed 43 expansions - its advantage is near-zero memory use,
           which matters at national scale but not here.
         </div>""", unsafe_allow_html=True)
 
     # ── interactive route replay ──────────────────────────────────────────────
     st.markdown("<br>", unsafe_allow_html=True)
-    st.markdown("<div class='sec-head'>Live search replay — pick start, end and algorithm, watch it think</div>",
+    st.markdown("<div class='sec-head'>Live search replay - pick start, end and algorithm, watch it think</div>",
                 unsafe_allow_html=True)
 
     NODES_R = {
@@ -906,10 +905,10 @@ with T3:
             bound=t
 
     ALGO_DESC = {
-        "A*":    "Guided heuristic — expands fewest nodes, always optimal",
-        "BFS":   "Level-by-level — optimal shortest hops, explores broadly",
-        "DFS":   "Deep dive — fast but not guaranteed to find shortest path",
-        "IDA*":  "Iterative A* — optimal like A*, uses almost no memory",
+        "A*":    "Guided heuristic - expands fewest nodes, always optimal",
+        "BFS":   "Level-by-level - optimal shortest hops, explores broadly",
+        "DFS":   "Deep dive - fast but not guaranteed to find shortest path",
+        "IDA*":  "Iterative A* - optimal like A*, uses almost no memory",
     }
 
     # config row
@@ -919,7 +918,7 @@ with T3:
     en = cfg2.selectbox("End",   all_n, index=19, key="r_en")
     algo = cfg3.radio("Algorithm", ["A*","BFS","DFS","IDA*"], key="r_algo", horizontal=True)
     rp_speed = cfg4.slider("Speed", 1, 8, 3, format="%dx", key="rp_spd")
-    st.caption(f"**{algo}** — {ALGO_DESC[algo]}")
+    st.caption(f"**{algo}** - {ALGO_DESC[algo]}")
 
     fn = {"A*":_astar, "BFS":_bfs, "DFS":_dfs, "IDA*":_idastar}[algo]
     if sn != en:
@@ -955,7 +954,7 @@ with T3:
             if st.session_state["rp"] >= max_rp: st.session_state["rp"]=0
             st.session_state["rp_pl"] = not st.session_state["rp_pl"]; st.rerun()
 
-        # slider — use value= so auto-play can write to rp freely
+        # slider - use value= so auto-play can write to rp freely
         new_rp = st.slider("Nodes explored", 0, max_rp,
                            value=st.session_state["rp"],
                            help="Drag to replay how the algorithm searches node by node")
@@ -1055,23 +1054,23 @@ with T3:
             st.session_state["rp_pl"] = False
 
 # ══════════════════════════════════════════════════════════════════════════════
-#  TASK 4 — A* vs IDA*
+#  TASK 4 - A* vs IDA*
 # ══════════════════════════════════════════════════════════════════════════════
 with T4:
     st.markdown("""
     <div class='task-card'>
-      <div class='task-icon' style='background:linear-gradient(135deg,#7c3aed,#a78bfa);box-shadow:0 6px 20px rgba(124,58,237,.35);'>
+      <div class='task-icon' style='background:linear-gradient(135deg,#6d28d9,#a78bfa);box-shadow:0 6px 20px rgba(109,40,217,.4);'>
         <svg width="24" height="24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-          <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/>
-          <line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/>
+          <circle cx="12" cy="12" r="10"/>
+          <polyline points="12 6 12 12 16 14"/>
         </svg>
       </div>
       <div>
         <div class='task-title'>Same shortest path, completely different strategies</div>
-        <div class='task-desc'>A* remembers every node it visits — fast, but memory grows with the network.
-        IDA* forgets and re-searches from scratch each pass, tightening its cost bound each time — slower
+        <div class='task-desc'>A* remembers every node it visits - fast, but memory grows with the network.
+        IDA* forgets and re-searches from scratch each pass, tightening its cost bound each time - slower
         but uses almost no memory. This benchmark runs <b>10 routes × 20 timing runs</b> across urban
-        and rural pairs to find out which algorithm is right for EcoCart — and at what scale that answer changes.</div>
+        and rural pairs to find out which algorithm is right for EcoCart - and at what scale that answer changes.</div>
       </div>
     </div>""", unsafe_allow_html=True)
 
@@ -1119,7 +1118,7 @@ with T4:
 
     st.markdown("""
     <div class='insight'>
-      Both algorithms found <b>identical optimal paths</b> on every single route — path costs match exactly.
+      Both algorithms found <b>identical optimal paths</b> on every single route - path costs match exactly.
       But A* was faster and expanded fewer nodes every time. The starkest example: R4→R9, where
       A* needed 7 node expansions in 0.130 ms while IDA* needed 50 in 0.642 ms.
       For EcoCart's current network, A* is the clear winner. IDA*'s value shows up at national scale —
@@ -1127,15 +1126,14 @@ with T4:
     </div>""", unsafe_allow_html=True)
 
 # ══════════════════════════════════════════════════════════════════════════════
-#  TASK 5 — FORECASTING
+#  TASK 5 - FORECASTING
 # ══════════════════════════════════════════════════════════════════════════════
 with T5:
     st.markdown("""
     <div class='task-card'>
-      <div class='task-icon' style='background:linear-gradient(135deg,#059669,#34d399);box-shadow:0 6px 20px rgba(5,150,105,.35);'>
+      <div class='task-icon' style='background:linear-gradient(135deg,#047857,#34d399);box-shadow:0 6px 20px rgba(4,120,87,.4);'>
         <svg width="24" height="24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-          <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
-          <polyline points="17 6 23 6 23 12"/>
+          <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
         </svg>
       </div>
       <div>
@@ -1143,11 +1141,11 @@ with T5:
         <div class='task-desc'>Linear Regression (fast, transparent) goes head-to-head against
         Random Forest (200 trees, non-linear patterns). Both train on <b>730 days</b> of EcoCart
         sales history and are tested blind on <b>140 days they have never seen</b>.
-        Press <b>Run</b> to see which model wins on MAE, RMSE, R², and MAPE — and why the result is surprising.</div>
+        Press <b>Run</b> to see which model wins on MAE, RMSE, R², and MAPE - and why the result is surprising.</div>
       </div>
     </div>""", unsafe_allow_html=True)
 
-    run_t5 = st.button("▶  Run Task 5 — Demand Forecasting",
+    run_t5 = st.button("▶  Run Task 5 - Demand Forecasting",
                        type="primary", use_container_width=True, key="run_t5")
     if run_t5 or st.session_state.get("t5_done"):
         st.session_state["t5_done"] = True
@@ -1173,12 +1171,12 @@ with T5:
               </div><div class='term-body'>{t5_out}</div></div>""", unsafe_allow_html=True)
 
         m1,m2,m3,m4=st.columns(4)
-        m1.metric("LR — MAE","9.62 units"); m2.metric("LR — R²","0.762")
-        m3.metric("RF — MAE","9.75 units"); m4.metric("RF — R²","0.716")
+        m1.metric("LR - MAE","9.62 units"); m2.metric("LR - R²","0.762")
+        m3.metric("RF - MAE","9.75 units"); m4.metric("RF - R²","0.716")
 
         if os.path.exists("output/forecast.png"):
             st.image("output/forecast.png",
-                     caption="Actual vs predicted sales — 140 test days",
+                     caption="Actual vs predicted sales - 140 test days",
                      use_container_width=True)
         c1,c2=st.columns(2)
         with c1:
@@ -1191,25 +1189,24 @@ with T5:
 
         st.markdown("""
         <div class='insight'>
-          Linear Regression won on <b>both accuracy and speed</b> — R²=0.762 vs Random Forest's 0.716,
+          Linear Regression won on <b>both accuracy and speed</b> - R²=0.762 vs Random Forest's 0.716,
           and a fraction of the training time (LR is a single matrix solve; RF trains 200 trees on
           bootstrap samples). The reason LR wins here: once lag_7 (same weekday last week) is in the
           features, the demand signal becomes mostly linear. Random Forest's complexity adds noise, not signal.
-          Top predictors: <b>lag_7</b>, <b>lag_14</b>, <b>is_promo</b> — weekly rhythm and promotions
+          Top predictors: <b>lag_7</b>, <b>lag_14</b>, <b>is_promo</b> - weekly rhythm and promotions
           drive demand more than anything else.
         </div>""", unsafe_allow_html=True)
 
 # ══════════════════════════════════════════════════════════════════════════════
-#  TASK 6 — BUSINESS CASE
+#  TASK 6 - BUSINESS CASE
 # ══════════════════════════════════════════════════════════════════════════════
 with T6:
     st.markdown("""
     <div class='task-card'>
-      <div class='task-icon' style='background:linear-gradient(135deg,#ea580c,#fb923c);box-shadow:0 6px 20px rgba(234,88,12,.35);'>
+      <div class='task-icon' style='background:linear-gradient(135deg,#c2410c,#fb923c);box-shadow:0 6px 20px rgba(194,65,12,.4);'>
         <svg width="24" height="24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-          <rect x="2" y="7" width="20" height="14" rx="2"/>
-          <path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/>
-          <line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/>
+          <path d="M21.21 15.89A10 10 0 118 2.83"/>
+          <path d="M22 12A10 10 0 0012 2v10z"/>
         </svg>
       </div>
       <div>
@@ -1278,7 +1275,7 @@ with T6:
 
         st.markdown(f"""
         <div class='warn-box'>
-          <b>Reminder:</b> these are estimates for illustration only — not measured values.
+          <b>Reminder:</b> these are estimates for illustration only - not measured values.
           Current inputs: {fleet} vehicles, {daily} deliveries/day, {avg_km} km avg route,
           {rt_save}% saving from A* routing, €{seg_rev}k rural revenue uplift assumed.
           Change the sliders to model your own scenario.
