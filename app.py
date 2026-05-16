@@ -212,9 +212,9 @@ with st.sidebar:
     </div>""", unsafe_allow_html=True)
     st.divider()
 
-    st.markdown("**How to use**")
-    for n, t in [("1","Pick a tab above"),("2","Read the short description"),
-                 ("3","Press Run (Tasks 2, 3, 5)"),("4","Use Play to animate (Tasks 1, 3)")]:
+    st.markdown("**How to navigate**")
+    for n, t in [("1","Pick a task tab above"),("2","Tasks 2, 3 and 5 — press Run first"),
+                 ("3","Tasks 1 and 3 — press Play to animate"),("4","Task 6 — drag sliders to explore")]:
         st.markdown(f"""<div style='display:flex;gap:8px;align-items:center;margin:5px 0;'>
           <div style='background:#0f172a;color:#fff;width:18px;height:18px;border-radius:50%;
                font-size:.68rem;font-weight:800;display:flex;align-items:center;
@@ -236,7 +236,7 @@ with st.sidebar:
                     unsafe_allow_html=True)
 
     st.divider()
-    st.caption("All outputs are from the real task Python scripts.")
+    st.caption("Every number and chart comes from running the actual Python scripts — nothing is hardcoded except Task 4 benchmark tables and Task 6 estimates.")
 
 # ── header ────────────────────────────────────────────────────────────────────
 st.markdown("""
@@ -244,7 +244,7 @@ st.markdown("""
             padding:20px 26px;margin-bottom:18px;'>
   <div style='color:#f8fafc;font-size:1.5rem;font-weight:800;margin-bottom:2px;'>EcoCart AI System</div>
   <div style='color:#94a3b8;font-size:.85rem;'>
-    Route optimisation &nbsp;·&nbsp; Customer segmentation &nbsp;·&nbsp; Demand forecasting
+    Six AI tasks, one logistics problem &nbsp;·&nbsp; Every result runs from real Python scripts
   </div>
 </div>""", unsafe_allow_html=True)
 
@@ -263,9 +263,10 @@ T1, T2, T3, T4, T5, T6 = st.tabs([
 with T1:
     st.markdown("""
     <div class='card card-navy'>
-      <strong>What is this?</strong>&nbsp; Three AI agent types navigate the same 9-stop delivery map.
-      Each makes decisions differently. Use <b>Play</b> to watch the route animate stop by stop,
-      or drag the slider to step through manually.
+      Three AI agents tackle the same 9-stop delivery problem — but each thinks completely differently.
+      The <b>Reactive</b> agent rushes to the nearest stop. The <b>Goal-Based</b> agent plans the
+      whole route before leaving. The <b>Utility-Based</b> agent chases high-priority stops first.
+      Same map, same stops — very different outcomes. Press <b>Play</b> to watch or drag the slider to step through.
     </div>""", unsafe_allow_html=True)
 
     # ── route data ────────────────────────────────────────────────────────────
@@ -307,9 +308,9 @@ with T1:
     ROUTES = _get_routes()
     RCOLS  = {"Reactive Agent":BLUE, "Goal-Based Agent":GREEN, "Utility-Based Agent":AMBER}
     RDESC  = {
-        "Reactive Agent":     "Always picks the nearest unvisited stop. Simple, but not the shortest route.",
-        "Goal-Based Agent":   "Plans the full route before starting using 2-opt optimisation. Shortest total km.",
-        "Utility-Based Agent":"Scores stops by urgency ÷ distance. Reaches high-priority ★ stops first.",
+        "Reactive Agent":     "No planning — just go to the nearest stop. Fast to decide, but the total route is often longer.",
+        "Goal-Based Agent":   "Plans the full route before moving using 2-opt optimisation. Always finds the shortest total distance.",
+        "Utility-Based Agent":"Scores every stop by priority ÷ distance. Gets to the most urgent ★ stops first, not just the closest.",
     }
 
     # ── agent selection row ───────────────────────────────────────────────────
@@ -499,9 +500,10 @@ with T1:
 with T2:
     st.markdown("""
     <div class='card card-amber'>
-      <strong>What is this?</strong>&nbsp; EcoCart uses K-Means clustering to group customers into
-      High / Medium / Low Value segments. Rural customers were being unfairly placed in Low Value —
-      this task finds why and fixes it. Fairness threshold: Disparate Impact ≥ 0.80.
+      The K-Means model was quietly being unfair — not one rural customer made it to High Value.
+      Zero. This task figures out why that happened (the data was biased from the start) and applies
+      a three-step fix. The fairness test used is <b>Disparate Impact</b>: if rural customers are
+      less than 80% as likely as urban ones to reach High Value, the model fails. Press <b>Run</b> to see the before and after.
     </div>""", unsafe_allow_html=True)
 
     run_t2 = st.button("▶  Run Task 2 — Segmentation & Bias Fix",
@@ -543,9 +545,10 @@ with T2:
 
         st.markdown("""
         <div class='insight'>
-          <b>Before:</b> 0% of rural customers in High Value — Disparate Impact = 0.0 (biased).<br>
-          <b>After fix:</b> 57.3% of rural customers in High Value — Disparate Impact = 0.847 (fair, above 0.80).<br>
-          Fix: oversample rural customers + adjust spend features + re-cluster.
+          Before the fix, 0% of rural customers reached High Value — Disparate Impact was 0.0, a complete fairness failure.
+          After oversampling rural customers to match urban count, adjusting spend for the delivery cost premium (+€12),
+          and correcting frequency for order batching (×1.5), the Disparate Impact rose to <b>0.847</b> — above the 0.80 threshold.
+          The model now treats both groups fairly.
         </div>""", unsafe_allow_html=True)
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -554,9 +557,10 @@ with T2:
 with T3:
     st.markdown("""
     <div class='card card-blue'>
-      <strong>What is this?</strong>&nbsp; Four search algorithms (BFS, DFS, A*, IDA*) find routes across
-      a 20-node delivery network (10 urban, 10 rural). Run the script to see all results,
-      then use the <b>interactive replay</b> below to watch BFS or A* explore node by node.
+      Four algorithms, one problem: find the best delivery route on a custom 20-node map (10 urban, 10 rural stops).
+      Each algorithm searches differently — some are optimal, one is not, and the best one does it
+      with the fewest steps. Press <b>Run</b> to see the benchmark results, then use the
+      <b>interactive replay</b> below to watch any algorithm explore the network node by node.
     </div>""", unsafe_allow_html=True)
 
     run_t3 = st.button("▶  Run Task 3 — Route Optimisation",
@@ -599,16 +603,18 @@ with T3:
 
         st.markdown("""
         <div class='insight'>
-          A* found the optimal path (5.69 km) expanding only 7 nodes.
-          BFS found same path (11 nodes). DFS was not optimal (6.84 km, 18 nodes).
-          IDA* matched A* cost but expanded 43 nodes — better for very large networks (no RAM needed).
+          A* found the shortest path (5.69 km) using only 7 node expansions — the most efficient result.
+          BFS found the same optimal path but needed 11 expansions. DFS was the only algorithm that got
+          it wrong, returning a 6.84 km suboptimal route because it dives deep without comparing alternatives.
+          IDA* also found 5.69 km but needed 43 expansions — its advantage is near-zero memory use,
+          which matters at national scale but not here.
         </div>""", unsafe_allow_html=True)
 
     # ── interactive route replay ──────────────────────────────────────────────
     st.markdown("<br>", unsafe_allow_html=True)
     st.markdown("""
     <div style='font-weight:700;font-size:1rem;color:#0f172a;margin-bottom:10px;'>
-      Interactive search replay — watch the algorithm explore step by step
+      Try it yourself — pick any start, end, and algorithm, then replay the search step by step
     </div>""", unsafe_allow_html=True)
 
     NODES_R = {
@@ -849,9 +855,11 @@ with T3:
 with T4:
     st.markdown("""
     <div class='card card-navy'>
-      <strong>What is this?</strong>&nbsp; A* and IDA* both find the optimal route but work differently.
-      A* stores all explored nodes in memory (fast). IDA* uses almost no memory by re-searching with a
-      stricter cost limit each pass. This tab shows benchmark results: 10 routes, 20 runs each.
+      A* and IDA* always find the same shortest path — the question is <i>how</i> they get there.
+      A* keeps a record of every node it has visited (fast, but memory grows). IDA* forgets everything
+      and re-searches from scratch each pass, tightening its cost limit each time (slower, but uses
+      almost no memory). These benchmarks run <b>10 routes × 20 timing runs</b> to see which wins on
+      EcoCart's network — and when IDA* would be the better choice.
     </div>""", unsafe_allow_html=True)
 
     urban_data=[
@@ -898,10 +906,11 @@ with T4:
 
     st.markdown("""
     <div class='insight'>
-      Both algorithms found <b>identical optimal paths</b> on every route.<br>
-      A* expanded fewer nodes every time (e.g. R4→R9: A*=7, IDA*=50). A* is faster on small graphs.<br>
-      IDA* uses O(depth) memory vs A*'s O(b<sup>d</sup>). On a national network with millions of nodes,
-      IDA* would be the only practical choice.
+      Both algorithms found <b>identical optimal paths</b> on every single route — path costs match exactly.
+      But A* was faster and expanded fewer nodes every time. The starkest example: R4→R9, where
+      A* needed 7 node expansions in 0.130 ms while IDA* needed 50 in 0.642 ms.
+      For EcoCart's current network, A* is the clear winner. IDA*'s value shows up at national scale —
+      when the network has millions of nodes and storing A*'s visited set would exhaust memory.
     </div>""", unsafe_allow_html=True)
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -910,8 +919,10 @@ with T4:
 with T5:
     st.markdown("""
     <div class='card card-green'>
-      <strong>What is this?</strong>&nbsp; Two ML models — Linear Regression and Random Forest —
-      are trained on 730 days of sales data and tested on 140 unseen days to predict daily demand.
+      Can a simple model beat a complex one? Two models are trained on <b>730 days</b> of EcoCart
+      sales history — Linear Regression (transparent, fast) and Random Forest (200 decision trees,
+      captures non-linear patterns). Both are then tested on <b>140 days they have never seen</b>.
+      Press <b>Run</b> to find out which wins, and why the result might surprise you.
     </div>""", unsafe_allow_html=True)
 
     run_t5 = st.button("▶  Run Task 5 — Demand Forecasting",
@@ -958,9 +969,11 @@ with T5:
 
         st.markdown("""
         <div class='insight'>
-          Linear Regression (R²=0.762) beat Random Forest (R²=0.716) on this dataset.<br>
-          Top 3 features: <b>lag_7</b> (same day last week), <b>lag_14</b>, and <b>is_promo</b>.
-          Weekly patterns and promotions drive demand most.
+          Linear Regression (R²=0.762) outperformed Random Forest (R²=0.716) — the simpler model won.
+          The reason: once you give the model last week's same-day sales (<b>lag_7</b>), the pattern
+          becomes mostly linear. Random Forest's extra complexity adds nothing. The top three predictors
+          were lag_7, lag_14, and is_promo — confirming that weekly rhythm and promotions drive
+          demand far more than anything else.
         </div>""", unsafe_allow_html=True)
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -969,8 +982,11 @@ with T5:
 with T6:
     st.markdown("""
     <div class='card card-amber'>
-      <strong>What is this?</strong>&nbsp; An estimated business case for deploying the AI system.
-      All numbers are assumptions — adjust the sliders to model different scenarios.
+      What does all of this actually save EcoCart? This tab turns the technical results into
+      a financial model — the savings from A* routing, the rural revenue unlocked by fixing the
+      segmentation bias, and the CO₂ avoided. <b>None of these numbers are real</b> — they are
+      estimates based on typical fleet operations. Use the sliders on the left to plug in
+      EcoCart's actual numbers and see how the ROI changes.
     </div>""", unsafe_allow_html=True)
 
     ctrl, main = st.columns([1, 3])
@@ -1029,7 +1045,8 @@ with T6:
 
         st.markdown(f"""
         <div class='warn-box'>
-          All numbers are <b>assumptions for illustration</b>, not measured values.
-          Based on: {fleet} vehicles · {daily} deliveries/day · {avg_km} km avg ·
-          {rt_save}% A* saving · €{seg_rev}k rural uplift.
+          <b>Reminder:</b> these are estimates for illustration only — not measured values.
+          Current inputs: {fleet} vehicles, {daily} deliveries/day, {avg_km} km avg route,
+          {rt_save}% saving from A* routing, €{seg_rev}k rural revenue uplift assumed.
+          Change the sliders to model your own scenario.
         </div>""", unsafe_allow_html=True)

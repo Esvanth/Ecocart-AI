@@ -43,14 +43,13 @@ Trains two ML models on 730 days of synthetic sales data:
 - **Linear Regression** — fast and interpretable
 - **Random Forest** — captures non-linear seasonal patterns
 
-Features a **what-if predictor** — enter any day, month, and promotion flag to get an instant sales prediction.
+Trains on 730 days of data and evaluates both models on 140 unseen test days using MAE, RMSE, R², and MAPE.
 
 ### Task 6 — Business Case *(Voluntary — AI Student)*
 Quantifies the financial and environmental impact of the AI system with fully interactive sliders:
 - **ROI calculator** — adjusts fleet size, fuel cost, wage rates and shows live annual savings
 - **3-year ROI projection** — cumulative benefit vs cost with breakeven line
-- **CO₂ impact** — tonnes saved per year, tree and car equivalents
-- **Implementation roadmap** — 5-phase Gantt chart across 8 months
+- **CO₂ impact** — estimated tonnes of CO₂ saved per year
 
 ---
 
