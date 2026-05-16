@@ -2,9 +2,6 @@
 EcoCart Route Optimisation Prototype
 Tasks 3 & 4 — BFS, DFS, A*, IDA* on a weighted delivery network
               + Green Routing mode (CO2-weighted edges for sustainability)
-
-NCI MSCAI | Fundamentals of AI TABA 2026
-
 Run:  python3 task3_4_routing.py
 Out:  network_map.png, algo_comparison.png, green_vs_fast.png
 """
@@ -28,10 +25,8 @@ NODES = {
     "R7":(6.5,6.0,"rural"),"R8":(9.0,7.0,"rural"),"R9":(11.0,6.0,"rural"),
     "R10":(8.0,5.5,"rural"),
 }
-
 def _dist(a, b):
     return math.hypot(NODES[a][0]-NODES[b][0], NODES[a][1]-NODES[b][1])
-
 _PAIRS = [
     ("U1","U2"),("U2","U3"),("U1","U4"),("U2","U4"),("U2","U5"),
     ("U3","U6"),("U4","U5"),("U5","U6"),("U4","U7"),("U5","U8"),
@@ -41,10 +36,8 @@ _PAIRS = [
     ("R7","R8"),("R8","R9"),("R6","R9"),("R8","R10"),("R5","R8"),
     ("U3","R1"),("U10","R4"),("U6","R1"),("U9","R7"),
 ]
-
-# Road distance ≈ 1.15× straight-line
+# Road distance = 1.15× straight-line
 EDGES = [(a, b, round(_dist(a,b)*1.15, 2)) for a, b in _PAIRS]
-
 # CO2 cost per edge: urban roads have traffic → higher emissions per km
 # Rural roads: 0.12 kg CO2/km;  Urban roads: 0.21 kg CO2/km
 def _co2(a, b, km):
@@ -53,7 +46,6 @@ def _co2(a, b, km):
     return round(km * rate, 3)
 
 CO2_EDGES = [(a, b, _co2(a, b, w)) for a, b, w in EDGES]
-
 ADJ_KM = {n: [] for n in NODES}
 ADJ_CO2 = {n: [] for n in NODES}
 for i, (a, b, w) in enumerate(EDGES):
@@ -66,7 +58,6 @@ for i, (a, b, w) in enumerate(EDGES):
 # ── 2. Algorithms ───────────────────────────────────────────
 def heuristic(n, goal, scale=1.0):
     return _dist(n, goal) * scale
-
 def bfs(start, goal, adj=ADJ_KM):
     expanded = 0
     q = deque([(start, [start])])
@@ -82,7 +73,6 @@ def bfs(start, goal, adj=ADJ_KM):
                 seen.add(nb)
                 q.append((nb, path + [nb]))
     return None, math.inf, expanded
-
 def dfs(start, goal, adj=ADJ_KM, depth_limit=50):
     expanded = 0
     stack = [(start, [start])]
@@ -100,7 +90,6 @@ def dfs(start, goal, adj=ADJ_KM, depth_limit=50):
                 seen.add(nb)
                 stack.append((nb, path + [nb]))
     return None, math.inf, expanded
-
 def astar(start, goal, adj=ADJ_KM, h_scale=1.0):
     expanded, counter = 0, 0
     heap = [(heuristic(start, goal, h_scale), 0.0, counter, start, [start])]
@@ -143,7 +132,6 @@ def ida_star(start, goal, adj=ADJ_KM, h_scale=1.0):
             path.pop()
             visited.remove(nb)
         return None, nxt
-
     bound = heuristic(start, goal, h_scale)
     while True:
         r, t = _dfs(start, 0.0, bound, [start], {start})
@@ -152,7 +140,6 @@ def ida_star(start, goal, adj=ADJ_KM, h_scale=1.0):
         if t == math.inf:
             return None, math.inf, expanded[0]
         bound = t
-
 def _edge_w(a, b, adj):
     for nb, w in adj[a]:
         if nb == b:
@@ -179,7 +166,6 @@ def benchmark(algo, start, goal, adj=ADJ_KM, repeats=20):
         "cost": cost,
         "path": path,
     }
-
 OD_URBAN = [("U1","U10"),("U7","U6"),("U2","U9"),("U1","U9"),("U3","U8")]
 OD_RURAL = [("R1","R9"),("R2","R8"),("R3","R10"),("R1","R6"),("R4","R9")]
 
@@ -192,7 +178,6 @@ def plot_network():
         G.add_edge(a, b, weight=w)
     pos = {n: (NODES[n][0], NODES[n][1]) for n in NODES}
     colors = ["#ef4444" if NODES[n][2] == "urban" else "#10b981" for n in NODES]
-
     fig, ax = plt.subplots(figsize=(13, 6))
     ax.set_facecolor("#0d1117")
     fig.patch.set_facecolor("#0d1117")
@@ -212,7 +197,6 @@ def plot_network():
     plt.savefig("output/network_map.png", dpi=150, bbox_inches="tight",
                 facecolor="#0d1117")
     plt.close()
-
 
 def plot_comparison(results):
     metrics = [("Runtime (ms)", "ms"), ("Nodes expanded", "expanded"), ("Peak memory (KB)", "kb")]
@@ -240,30 +224,24 @@ def plot_comparison(results):
     plt.savefig("output/algo_comparison.png", dpi=150,
                 bbox_inches="tight", facecolor="#0d1117")
     plt.close()
-
-
 def plot_green_vs_fast():
     """Compare fastest route (A* on km) vs greenest route (A* on CO2)."""
     pairs = [("U1", "R9"), ("U7", "R6"), ("R1", "U10")]
     fig, axes = plt.subplots(1, 3, figsize=(15, 5))
     fig.patch.set_facecolor("#0d1117")
-
     G = nx.Graph()
     for n, (x, y, _) in NODES.items():
         G.add_node(n, pos=(x, y))
     for a, b, w in EDGES:
         G.add_edge(a, b)
     pos = {n: (NODES[n][0], NODES[n][1]) for n in NODES}
-
     for ax, (s, g) in zip(axes, pairs):
         ax.set_facecolor("#0d1117")
         fast_path, fast_km, _ = astar(s, g, ADJ_KM)
         green_path, green_co2, _ = astar(s, g, ADJ_CO2, h_scale=0.10)
-
         # Compute cross-metrics
         fast_co2 = sum(_edge_w(fast_path[i], fast_path[i+1], ADJ_CO2) for i in range(len(fast_path)-1))
         green_km = sum(_edge_w(green_path[i], green_path[i+1], ADJ_KM) for i in range(len(green_path)-1))
-
         colors = ["#ef4444" if NODES[n][2] == "urban" else "#10b981" for n in NODES]
         nx.draw(G, pos, ax=ax, with_labels=True, node_color=colors,
                 node_size=300, font_size=7, font_weight="bold",
@@ -289,7 +267,6 @@ def plot_green_vs_fast():
     plt.savefig("output/green_vs_fast.png", dpi=150,
                 bbox_inches="tight", facecolor="#0d1117")
     plt.close()
-
 
 # ── 5. Main ─────────────────────────────────────────────────
 def main():

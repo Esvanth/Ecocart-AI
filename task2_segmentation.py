@@ -3,8 +3,6 @@ EcoCart Customer Segmentation — Bias Detection & Mitigation
 Task 2 — Demonstrates urban-rural bias in K-Means segmentation and
           applies reweighing to fix it.
 
-NCI MSCAI | Fundamentals of AI TABA 2026
-
 Run:  python3 task2_segmentation.py
 Out:  bias_before_after.png, disparate_impact.png
 """
@@ -17,8 +15,7 @@ from sklearn.preprocessing import StandardScaler
 
 RNG = np.random.default_rng(42)
 
-
-# ── 1. Generate biased customer data ────────────────────────
+# 1. Generate biased customer data 
 # Urban customers have more data, higher frequency, higher spend — mimicking
 # a real scenario where the platform launched in cities first.
 
@@ -60,7 +57,6 @@ def segment(df, features=["freq", "spend", "recency"]):
     df["segment"] = df["cluster"].map(label_map)
     return df
 
-
 # ── 3. Bias metrics ────────────────────────────────────────
 def compute_fairness(df):
     urban = df[df.region == "urban"]
@@ -74,7 +70,6 @@ def compute_fairness(df):
         "disparate_impact": round(di, 3),
         "fair": di >= 0.8,
     }
-
 
 # ── 4. Mitigation: reweigh + balanced re-sample ────────────
 def mitigate(df):
@@ -126,24 +121,20 @@ def mitigate(df):
     target_rural_high = int(target_rate * n_rural)
     current_rural_high = ((balanced[rural_mask].segment == "High Value")).sum()
     need = target_rural_high - current_rural_high
-
     if need > 0:
         # Promote from Medium first, then Low Value
         candidates = balanced[rural_mask & (balanced.segment != "High Value")]
         if len(candidates) > 0:
             promote = candidates.nlargest(min(need, len(candidates)), "adj_spend").index
             balanced.loc[promote, "segment"] = "High Value"
-
     return balanced
 
 
 # ── 5. Plots ────────────────────────────────────────────────
 SEG_COLORS = {"High Value": "#10b981", "Medium": "#f59e0b", "Low Value": "#ef4444"}
-
 def plot_before_after(before_df, after_df, before_fair, after_fair):
     fig, axes = plt.subplots(1, 2, figsize=(14, 5.5))
     fig.patch.set_facecolor("#0d1117")
-
     for ax, df, fair, title in [
         (axes[0], before_df, before_fair, "BEFORE mitigation (biased)"),
         (axes[1], after_df,  after_fair,  "AFTER mitigation (reweighed + adjusted)"),
@@ -172,18 +163,15 @@ def plot_before_after(before_df, after_df, before_fair, after_fair):
                 bbox_inches="tight", facecolor="#0d1117")
     plt.close()
 
-
 def plot_di(before_fair, after_fair):
     fig, ax = plt.subplots(figsize=(8, 4))
     fig.patch.set_facecolor("#0d1117")
     ax.set_facecolor("#0d1117")
-
     cats = ["Urban → High", "Rural → High", "Disparate Impact"]
     before_vals = [before_fair["urban_high_pct"], before_fair["rural_high_pct"],
                    before_fair["disparate_impact"] * 100]
     after_vals  = [after_fair["urban_high_pct"],  after_fair["rural_high_pct"],
                    after_fair["disparate_impact"] * 100]
-
     x = range(len(cats))
     w = 0.35
     ax.bar([i - w/2 for i in x], before_vals, w, label="Before", color="#ef4444", alpha=0.85)

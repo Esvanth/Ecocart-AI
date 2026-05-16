@@ -2,8 +2,6 @@
 EcoCart Demand Forecasting Prototype
 Task 5 — Linear Regression vs Random Forest on synthetic daily sales.
 
-NCI MSCAI | Fundamentals of AI TABA 2026
-
 Run:  python3 task5_forecasting.py
 Out:  forecast.png, residuals.png, feature_importance.png
 """
@@ -14,7 +12,6 @@ import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
-
 RNG = np.random.default_rng(42)
 
 
@@ -29,14 +26,12 @@ def generate_sales(days=730):
     promo  = np.zeros(days)
     promo[RNG.choice(days, int(days * 0.06), replace=False)] = RNG.uniform(30, 70, int(days * 0.06))
     sales = np.clip(base + weekly + yearly + noise + promo, 0, None)
-
     return pd.DataFrame({
         "date": dates, "sales": sales,
         "dow": dates.dayofweek, "month": dates.month,
         "day_of_year": dates.dayofyear,
         "is_promo": (promo > 0).astype(int),
     })
-
 
 # ── 2. Features ────────────────────────────────────────────
 def add_features(df):
