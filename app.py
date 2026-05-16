@@ -443,11 +443,7 @@ T1, T2, T3, T4, T5, T6 = st.tabs([
 with T1:
     st.markdown("""
     <div class='task-card'>
-      <div class='task-icon' style='background:linear-gradient(135deg,#4f46e5,#818cf8);box-shadow:0 6px 20px rgba(99,102,241,.4);'>
-        <svg width="24" height="24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
-        </svg>
-      </div>
+      <div class='task-icon' style='background:linear-gradient(135deg,#4f46e5,#818cf8);box-shadow:0 6px 20px rgba(99,102,241,.4);font-size:1.5rem;'>🤖</div>
       <div>
         <div class='task-title'>Three agents, one delivery map. Completely different decisions.</div>
         <div class='task-desc'>Reactive rushes to the nearest stop. Goal-Based plans the full route before
@@ -688,12 +684,7 @@ with T1:
 with T2:
     st.markdown("""
     <div class='task-card'>
-      <div class='task-icon' style='background:linear-gradient(135deg,#b45309,#f59e0b);box-shadow:0 6px 20px rgba(180,83,9,.4);'>
-        <svg width="24" height="24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-          <circle cx="12" cy="12" r="3"/>
-        </svg>
-      </div>
+      <div class='task-icon' style='background:linear-gradient(135deg,#b45309,#f59e0b);box-shadow:0 6px 20px rgba(180,83,9,.4);font-size:1.5rem;'>⚖️</div>
       <div>
         <div class='task-title'>The model was being unfair. Nobody noticed until now.</div>
         <div class='task-desc'>Not one rural customer made it to High Value. Zero. The K-Means clustering
@@ -754,12 +745,7 @@ with T2:
 with T3:
     st.markdown("""
     <div class='task-card'>
-      <div class='task-icon' style='background:linear-gradient(135deg,#0369a1,#38bdf8);box-shadow:0 6px 20px rgba(3,105,161,.4);'>
-        <svg width="24" height="24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-          <circle cx="6" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><circle cx="18" cy="6" r="3"/>
-          <path d="M6 9v6"/><path d="M9 6h6"/><path d="M9 6a9 9 0 009 9"/>
-        </svg>
-      </div>
+      <div class='task-icon' style='background:linear-gradient(135deg,#0369a1,#38bdf8);box-shadow:0 6px 20px rgba(3,105,161,.4);font-size:1.5rem;'>🗺️</div>
       <div>
         <div class='task-title'>Four algorithms, one delivery network. Which one wins?</div>
         <div class='task-desc'>BFS, DFS, A*, and IDA* all search for the shortest route on a
@@ -1059,12 +1045,7 @@ with T3:
 with T4:
     st.markdown("""
     <div class='task-card'>
-      <div class='task-icon' style='background:linear-gradient(135deg,#6d28d9,#a78bfa);box-shadow:0 6px 20px rgba(109,40,217,.4);'>
-        <svg width="24" height="24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-          <circle cx="12" cy="12" r="10"/>
-          <polyline points="12 6 12 12 16 14"/>
-        </svg>
-      </div>
+      <div class='task-icon' style='background:linear-gradient(135deg,#6d28d9,#a78bfa);box-shadow:0 6px 20px rgba(109,40,217,.4);font-size:1.5rem;'>📊</div>
       <div>
         <div class='task-title'>Same shortest path, completely different strategies</div>
         <div class='task-desc'>A* remembers every node it visits - fast, but memory grows with the network.
@@ -1131,11 +1112,7 @@ with T4:
 with T5:
     st.markdown("""
     <div class='task-card'>
-      <div class='task-icon' style='background:linear-gradient(135deg,#047857,#34d399);box-shadow:0 6px 20px rgba(4,120,87,.4);'>
-        <svg width="24" height="24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-          <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
-        </svg>
-      </div>
+      <div class='task-icon' style='background:linear-gradient(135deg,#047857,#34d399);box-shadow:0 6px 20px rgba(4,120,87,.4);font-size:1.5rem;'>📈</div>
       <div>
         <div class='task-title'>Can a simple model beat 200 decision trees?</div>
         <div class='task-desc'>Linear Regression (fast, transparent) goes head-to-head against
@@ -1203,12 +1180,7 @@ with T5:
 with T6:
     st.markdown("""
     <div class='task-card'>
-      <div class='task-icon' style='background:linear-gradient(135deg,#c2410c,#fb923c);box-shadow:0 6px 20px rgba(194,65,12,.4);'>
-        <svg width="24" height="24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-          <path d="M21.21 15.89A10 10 0 118 2.83"/>
-          <path d="M22 12A10 10 0 0012 2v10z"/>
-        </svg>
-      </div>
+      <div class='task-icon' style='background:linear-gradient(135deg,#c2410c,#fb923c);box-shadow:0 6px 20px rgba(194,65,12,.4);font-size:1.5rem;'>💼</div>
       <div>
         <div class='task-title'>What does all of this actually save the business?</div>
         <div class='task-desc'>This tab turns the technical results into a live financial model —
