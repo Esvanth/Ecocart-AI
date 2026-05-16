@@ -133,71 +133,185 @@ def _layout(h=420):
 
 st.markdown("""
 <style>
-[data-testid="stAppViewContainer"] { background:#f1f5f9; }
-.block-container { padding:1.2rem 1.8rem 3rem; }
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
-/* Tabs */
+*, *::before, *::after { font-family: 'Inter', sans-serif !important; box-sizing: border-box; }
+
+[data-testid="stAppViewContainer"] {
+  background: linear-gradient(160deg, #eef2ff 0%, #f8fafc 40%, #f0fdf4 100%) !important;
+  min-height: 100vh;
+}
+.block-container { padding: 1rem 1.4rem 3rem !important; max-width: 1200px; }
+#MainMenu, footer { visibility: hidden; }
+
+/* ── Tabs ── */
 .stTabs [data-baseweb="tab-list"] {
-  background:#fff; border-radius:10px; padding:3px;
-  box-shadow:0 1px 4px rgba(0,0,0,.06); border:1px solid #e2e8f0;
+  background: #fff; border-radius: 14px; padding: 5px;
+  box-shadow: 0 2px 16px rgba(0,0,0,.07); border: 1px solid #e8edf5; gap: 3px;
 }
 .stTabs [data-baseweb="tab"] {
-  border-radius:7px; font-size:.83rem; font-weight:600; padding:7px 15px; color:#64748b;
+  border-radius: 10px; font-size: .78rem; font-weight: 600;
+  padding: 8px 13px; color: #64748b; transition: all .18s ease;
 }
-.stTabs [aria-selected="true"] { background:#0f172a !important; color:#fff !important; }
-
-/* Cards */
-.card {
-  background:#fff; border-radius:10px; padding:16px 20px;
-  border:1px solid #f1f5f9; box-shadow:0 1px 4px rgba(0,0,0,.05); margin-bottom:12px;
-}
-.card-blue  { border-left:4px solid #2563eb; }
-.card-amber { border-left:4px solid #d97706; }
-.card-green { border-left:4px solid #059669; }
-.card-navy  { border-left:4px solid #0f172a; }
-
-/* Terminal */
-.term { border-radius:10px; overflow:hidden; border:1px solid #1e293b; margin:6px 0; }
-.term-top { background:#1e293b; padding:7px 12px; display:flex; gap:5px; align-items:center; }
-.dot { width:9px; height:9px; border-radius:50%; }
-.term-body {
-  background:#0f172a; padding:12px 16px;
-  font-family:'Courier New',monospace; font-size:.78rem;
-  color:#94a3b8; white-space:pre-wrap; line-height:1.6;
-  max-height:300px; overflow-y:auto;
+.stTabs [aria-selected="true"] {
+  background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%) !important;
+  color: #fff !important; box-shadow: 0 3px 10px rgba(15,23,42,.25);
 }
 
-/* Insight boxes */
+/* ── Hero ── */
+.hero {
+  background: linear-gradient(135deg, #0f172a 0%, #162244 50%, #0f1f3d 100%);
+  border-radius: 18px; padding: 26px 30px 24px; margin-bottom: 18px;
+  position: relative; overflow: hidden;
+}
+.hero::before {
+  content: ''; position: absolute; top: -60px; right: -40px;
+  width: 280px; height: 280px;
+  background: radial-gradient(circle, rgba(99,102,241,.18) 0%, transparent 68%);
+  border-radius: 50%;
+}
+.hero::after {
+  content: ''; position: absolute; bottom: -60px; left: 30%;
+  width: 220px; height: 220px;
+  background: radial-gradient(circle, rgba(16,185,129,.12) 0%, transparent 68%);
+  border-radius: 50%;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.12);
+  color: #94a3b8; font-size: .68rem; font-weight: 700;
+  padding: 4px 12px; border-radius: 20px; margin-bottom: 14px;
+  letter-spacing: .06em; text-transform: uppercase;
+}
+.hero-title {
+  color: #f1f5f9; font-size: 1.75rem; font-weight: 900;
+  margin: 0 0 5px; letter-spacing: -.03em; line-height: 1.15;
+}
+.hero-sub { color: #64748b; font-size: .84rem; margin-bottom: 22px; line-height: 1.5; }
+.hero-stats { display: flex; gap: 0; flex-wrap: wrap; }
+.hero-stat {
+  padding: 10px 20px; border-right: 1px solid rgba(255,255,255,.07);
+  text-align: center;
+}
+.hero-stat:first-child { padding-left: 0; }
+.hero-stat:last-child { border-right: none; }
+.hero-stat-num {
+  color: #fff; font-size: 1.35rem; font-weight: 900;
+  letter-spacing: -.02em; line-height: 1; display: block;
+}
+.hero-stat-lbl {
+  color: #475569; font-size: .65rem; font-weight: 600;
+  text-transform: uppercase; letter-spacing: .07em; margin-top: 4px; display: block;
+}
+
+/* ── Task intro cards ── */
+.task-card {
+  background: #fff; border-radius: 14px; padding: 18px 20px;
+  margin-bottom: 16px; border: 1px solid #e8edf5;
+  box-shadow: 0 2px 14px rgba(0,0,0,.045);
+  display: flex; gap: 16px; align-items: flex-start;
+}
+.task-icon {
+  width: 46px; height: 46px; border-radius: 12px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; font-size: 1.4rem;
+}
+.task-title { font-size: .92rem; font-weight: 700; color: #0f172a; margin-bottom: 5px; }
+.task-desc { font-size: .82rem; color: #475569; line-height: 1.65; }
+
+/* ── Insight ── */
 .insight {
-  background:#ecfdf5; border-left:4px solid #059669;
-  border-radius:0 8px 8px 0; padding:12px 16px;
-  color:#064e3b; font-size:.85rem; line-height:1.6; margin:8px 0;
+  background: linear-gradient(135deg, #f0fdf4, #ecfdf5);
+  border: 1px solid #bbf7d0; border-radius: 12px;
+  padding: 14px 16px 14px 52px; position: relative;
+  color: #14532d; font-size: .83rem; line-height: 1.7; margin: 10px 0;
 }
+.insight::before {
+  content: '✓'; position: absolute; left: 14px; top: 14px;
+  width: 26px; height: 26px; background: #059669; border-radius: 8px;
+  color: #fff; font-size: .8rem; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* ── Warn ── */
 .warn-box {
-  background:#fffbeb; border-left:4px solid #d97706;
-  border-radius:0 8px 8px 0; padding:12px 16px;
-  color:#78350f; font-size:.85rem; line-height:1.6; margin:8px 0;
+  background: linear-gradient(135deg, #fffbeb, #fef9c3);
+  border: 1px solid #fde68a; border-radius: 12px;
+  padding: 14px 16px 14px 52px; position: relative;
+  color: #78350f; font-size: .83rem; line-height: 1.7; margin: 10px 0;
+}
+.warn-box::before {
+  content: '!'; position: absolute; left: 14px; top: 14px;
+  width: 26px; height: 26px; background: #d97706; border-radius: 8px;
+  color: #fff; font-size: .9rem; font-weight: 900;
+  display: flex; align-items: center; justify-content: center;
 }
 
-/* Legend row */
-.leg { display:flex; gap:14px; flex-wrap:wrap; margin:6px 0; }
-.li  { display:flex; align-items:center; gap:5px; font-size:.78rem; color:#475569; }
-.ld  { width:11px; height:11px; border-radius:50%; flex-shrink:0; }
+/* ── Terminal ── */
+.term { border-radius: 12px; overflow: hidden; border: 1px solid #1e293b; margin: 8px 0; }
+.term-top { background: #1e293b; padding: 8px 14px; display: flex; gap: 6px; align-items: center; }
+.dot { width: 10px; height: 10px; border-radius: 50%; }
+.term-body {
+  background: #0f172a; padding: 14px 18px;
+  font-family: 'Courier New', monospace; font-size: .77rem;
+  color: #94a3b8; white-space: pre-wrap; line-height: 1.7;
+  max-height: 280px; overflow-y: auto;
+}
 
-/* Section label */
+/* ── Legend ── */
+.leg { display: flex; gap: 12px; flex-wrap: wrap; margin: 8px 0; }
+.li  { display: flex; align-items: center; gap: 5px; font-size: .76rem; color: #475569; font-weight: 500; }
+.ld  { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
+
+/* ── Section label ── */
 .slabel {
-  font-size:.8rem; font-weight:700; color:#64748b;
-  text-transform:uppercase; letter-spacing:.05em; margin-bottom:6px;
+  font-size: .7rem; font-weight: 700; color: #94a3b8;
+  text-transform: uppercase; letter-spacing: .08em; margin-bottom: 8px;
 }
 
-/* Metrics */
+/* ── Divider heading ── */
+.sec-head {
+  font-size: .92rem; font-weight: 700; color: #0f172a;
+  margin: 18px 0 10px; padding-bottom: 8px;
+  border-bottom: 2px solid #e8edf5; letter-spacing: -.01em;
+}
+
+/* ── Metrics ── */
 div[data-testid="metric-container"] {
-  background:#fff; border-radius:8px; padding:12px 16px;
-  border:1px solid #e2e8f0; box-shadow:0 1px 3px rgba(0,0,0,.04);
+  background: #fff; border-radius: 12px; padding: 14px 18px;
+  border: 1px solid #e8edf5; box-shadow: 0 2px 8px rgba(0,0,0,.04);
 }
+div[data-testid="metric-container"] label { font-size: .72rem !important; font-weight: 600 !important; color: #64748b !important; }
+div[data-testid="metric-container"] [data-testid="stMetricValue"] { font-size: 1.25rem !important; font-weight: 800 !important; color: #0f172a !important; }
 
-/* Sidebar */
-[data-testid="stSidebar"] { background:#fff; border-right:1px solid #e2e8f0; }
+/* ── Sidebar ── */
+[data-testid="stSidebar"] {
+  background: #fff !important; border-right: 1px solid #e8edf5 !important;
+}
+.sb-brand {
+  text-align: center; padding: 4px 0 18px;
+  border-bottom: 1px solid #f1f5f9; margin-bottom: 18px;
+}
+.sb-icon { font-size: 2.2rem; line-height: 1; margin-bottom: 6px; }
+.sb-name { font-weight: 900; font-size: 1rem; color: #0f172a; }
+.sb-sub  { font-size: .7rem; color: #94a3b8; margin-top: 2px; font-weight: 500; }
+.sb-section { font-size: .68rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: .08em; margin: 14px 0 8px; }
+.sb-step {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 10px; border-radius: 10px; margin-bottom: 4px;
+  background: #f8fafc; border: 1px solid #f1f5f9;
+}
+.sb-num {
+  width: 22px; height: 22px; background: #0f172a; color: #fff;
+  border-radius: 6px; font-size: .65rem; font-weight: 800;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.sb-step-txt { font-size: .8rem; color: #334155; font-weight: 500; }
+.sb-status-row {
+  display: flex; align-items: center; gap: 8px;
+  padding: 7px 10px; border-radius: 10px; margin-bottom: 4px; font-size: .8rem; font-weight: 600;
+}
+.sb-done   { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
+.sb-pending { background: #f8fafc; color: #94a3b8; border: 1px solid #e8edf5; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -206,45 +320,50 @@ div[data-testid="metric-container"] {
 # ══════════════════════════════════════════════════════════════════════════════
 with st.sidebar:
     st.markdown("""
-    <div style='text-align:center;padding:8px 0 16px;'>
-      <div style='font-size:2rem;'>🛒</div>
-      <div style='font-weight:800;font-size:1.05rem;color:#0f172a;'>EcoCart AI</div>
+    <div class='sb-brand'>
+      <div class='sb-icon'>🛒</div>
+      <div class='sb-name'>EcoCart AI</div>
+      <div class='sb-sub'>Esvanth Mohankumar · 24311073</div>
     </div>""", unsafe_allow_html=True)
-    st.divider()
 
-    st.markdown("**How to navigate**")
-    for n, t in [("1","Pick a task tab above"),("2","Tasks 2, 3 and 5 — press Run first"),
-                 ("3","Tasks 1 and 3 — press Play to animate"),("4","Task 6 — drag sliders to explore")]:
-        st.markdown(f"""<div style='display:flex;gap:8px;align-items:center;margin:5px 0;'>
-          <div style='background:#0f172a;color:#fff;width:18px;height:18px;border-radius:50%;
-               font-size:.68rem;font-weight:800;display:flex;align-items:center;
-               justify-content:center;flex-shrink:0;'>{n}</div>
-          <span style='font-size:.82rem;color:#1e293b;'>{t}</span></div>""",
-                    unsafe_allow_html=True)
-    st.divider()
+    st.markdown("<div class='sb-section'>How to use</div>", unsafe_allow_html=True)
+    for n, t in [("1","Pick a task tab above"),
+                 ("2","Tasks 2, 3, 5 — press Run"),
+                 ("3","Tasks 1 & 3 — press Play"),
+                 ("4","Task 6 — adjust the sliders")]:
+        st.markdown(f"""<div class='sb-step'>
+          <div class='sb-num'>{n}</div>
+          <span class='sb-step-txt'>{t}</span></div>""", unsafe_allow_html=True)
 
+    st.markdown("<div class='sb-section'>Task progress</div>", unsafe_allow_html=True)
     t2_done = st.session_state.get("t2_done", False)
     t3_done = st.session_state.get("t3_done", False)
     t5_done = st.session_state.get("t5_done", False)
-    st.markdown("**Task status**")
-    for lbl, done in [("Task 2 — Bias",    t2_done),
-                       ("Task 3 — Routes",  t3_done),
-                       ("Task 5 — Forecast",t5_done)]:
-        icon = "✅" if done else "○"
-        col  = GREEN if done else "#94a3b8"
-        st.markdown(f"<div style='color:{col};font-size:.82rem;margin:3px 0;'>{icon} {lbl}</div>",
+    for lbl, icon, done in [
+        ("Task 2 — Bias", "⚖️", t2_done),
+        ("Task 3 — Routes", "🗺️", t3_done),
+        ("Task 5 — Forecast", "📈", t5_done),
+    ]:
+        cls = "sb-done" if done else "sb-pending"
+        mark = "✓" if done else "·"
+        st.markdown(f"<div class='sb-status-row {cls}'>{icon} {lbl} <span style='margin-left:auto'>{mark}</span></div>",
                     unsafe_allow_html=True)
 
-    st.divider()
-    st.caption("Every number and chart comes from running the actual Python scripts — nothing is hardcoded except Task 4 benchmark tables and Task 6 estimates.")
+    st.markdown("<br>", unsafe_allow_html=True)
+    st.caption("NCI · MSc AI · Foundations of AI 2026")
 
 # ── header ────────────────────────────────────────────────────────────────────
 st.markdown("""
-<div style='background:linear-gradient(135deg,#0f172a,#1e3a5f);border-radius:12px;
-            padding:20px 26px;margin-bottom:18px;'>
-  <div style='color:#f8fafc;font-size:1.5rem;font-weight:800;margin-bottom:2px;'>EcoCart AI System</div>
-  <div style='color:#94a3b8;font-size:.85rem;'>
-    Six AI tasks, one logistics problem &nbsp;·&nbsp; Every result runs from real Python scripts
+<div class='hero'>
+  <div class='hero-badge'>🎓 NCI &nbsp;·&nbsp; MSc Artificial Intelligence &nbsp;·&nbsp; Foundations of AI 2026</div>
+  <div class='hero-title'>EcoCart AI System</div>
+  <div class='hero-sub'>Six AI tasks built to solve one real logistics problem — every chart and number runs from actual Python scripts</div>
+  <div class='hero-stats'>
+    <div class='hero-stat'><span class='hero-stat-num'>6</span><span class='hero-stat-lbl'>Tasks</span></div>
+    <div class='hero-stat'><span class='hero-stat-num'>4</span><span class='hero-stat-lbl'>Algorithms</span></div>
+    <div class='hero-stat'><span class='hero-stat-num'>730</span><span class='hero-stat-lbl'>Days Data</span></div>
+    <div class='hero-stat'><span class='hero-stat-num'>20</span><span class='hero-stat-lbl'>Node Network</span></div>
+    <div class='hero-stat'><span class='hero-stat-num'>0.847</span><span class='hero-stat-lbl'>DI Score</span></div>
   </div>
 </div>""", unsafe_allow_html=True)
 
@@ -262,11 +381,15 @@ T1, T2, T3, T4, T5, T6 = st.tabs([
 # ══════════════════════════════════════════════════════════════════════════════
 with T1:
     st.markdown("""
-    <div class='card card-navy'>
-      Three AI agents tackle the same 9-stop delivery problem — but each thinks completely differently.
-      The <b>Reactive</b> agent rushes to the nearest stop. The <b>Goal-Based</b> agent plans the
-      whole route before leaving. The <b>Utility-Based</b> agent chases high-priority stops first.
-      Same map, same stops — very different outcomes. Press <b>Play</b> to watch or drag the slider to step through.
+    <div class='task-card'>
+      <div class='task-icon' style='background:#eef2ff;'>🤖</div>
+      <div>
+        <div class='task-title'>Three agents, one delivery map — completely different decisions</div>
+        <div class='task-desc'>Reactive rushes to the nearest stop. Goal-Based plans the full route before
+        leaving using 2-opt optimisation. Utility-Based scores stops by urgency ÷ distance and chases
+        high-priority ones first. Same 9-stop map, very different outcomes.
+        Press <b>Play</b> to animate or drag the slider to step through stop by stop.</div>
+      </div>
     </div>""", unsafe_allow_html=True)
 
     # ── route data ────────────────────────────────────────────────────────────
@@ -499,11 +622,15 @@ with T1:
 # ══════════════════════════════════════════════════════════════════════════════
 with T2:
     st.markdown("""
-    <div class='card card-amber'>
-      The K-Means model was quietly being unfair — not one rural customer made it to High Value.
-      Zero. This task figures out why that happened (the data was biased from the start) and applies
-      a three-step fix. The fairness test used is <b>Disparate Impact</b>: if rural customers are
-      less than 80% as likely as urban ones to reach High Value, the model fails. Press <b>Run</b> to see the before and after.
+    <div class='task-card'>
+      <div class='task-icon' style='background:#fffbeb;'>⚖️</div>
+      <div>
+        <div class='task-title'>The model was being unfair — and nobody noticed until now</div>
+        <div class='task-desc'>Not one rural customer made it to High Value. Zero. The K-Means clustering
+        was biased from the start because EcoCart launched in cities first. This task measures the bias
+        using <b>Disparate Impact</b> (threshold ≥ 0.80) and applies a three-step fix: oversample rural
+        customers, adjust for delivery costs, correct for order batching. Press <b>Run</b> to see before and after.</div>
+      </div>
     </div>""", unsafe_allow_html=True)
 
     run_t2 = st.button("▶  Run Task 2 — Segmentation & Bias Fix",
@@ -556,11 +683,15 @@ with T2:
 # ══════════════════════════════════════════════════════════════════════════════
 with T3:
     st.markdown("""
-    <div class='card card-blue'>
-      Four algorithms, one problem: find the best delivery route on a custom 20-node map (10 urban, 10 rural stops).
-      Each algorithm searches differently — some are optimal, one is not, and the best one does it
-      with the fewest steps. Press <b>Run</b> to see the benchmark results, then use the
-      <b>interactive replay</b> below to watch any algorithm explore the network node by node.
+    <div class='task-card'>
+      <div class='task-icon' style='background:#eff6ff;'>🗺️</div>
+      <div>
+        <div class='task-title'>Four algorithms, one delivery network — which one wins?</div>
+        <div class='task-desc'>BFS, DFS, A*, and IDA* all search for the shortest route on a
+        custom-built 20-node urban/rural network. Some find the optimal path, one doesn't.
+        The best does it with the fewest node expansions. Press <b>Run</b> for full results,
+        then use the <b>live replay</b> below to watch any algorithm search the network step by step.</div>
+      </div>
     </div>""", unsafe_allow_html=True)
 
     run_t3 = st.button("▶  Run Task 3 — Route Optimisation",
@@ -612,10 +743,8 @@ with T3:
 
     # ── interactive route replay ──────────────────────────────────────────────
     st.markdown("<br>", unsafe_allow_html=True)
-    st.markdown("""
-    <div style='font-weight:700;font-size:1rem;color:#0f172a;margin-bottom:10px;'>
-      Try it yourself — pick any start, end, and algorithm, then replay the search step by step
-    </div>""", unsafe_allow_html=True)
+    st.markdown("<div class='sec-head'>Live search replay — pick start, end and algorithm, watch it think</div>",
+                unsafe_allow_html=True)
 
     NODES_R = {
         "U1":(1.0,1.0,"urban"),  "U2":(2.0,1.5,"urban"),  "U3":(3.0,1.0,"urban"),
@@ -854,12 +983,15 @@ with T3:
 # ══════════════════════════════════════════════════════════════════════════════
 with T4:
     st.markdown("""
-    <div class='card card-navy'>
-      A* and IDA* always find the same shortest path — the question is <i>how</i> they get there.
-      A* keeps a record of every node it has visited (fast, but memory grows). IDA* forgets everything
-      and re-searches from scratch each pass, tightening its cost limit each time (slower, but uses
-      almost no memory). These benchmarks run <b>10 routes × 20 timing runs</b> to see which wins on
-      EcoCart's network — and when IDA* would be the better choice.
+    <div class='task-card'>
+      <div class='task-icon' style='background:#f0f4ff;'>📊</div>
+      <div>
+        <div class='task-title'>Same shortest path, completely different strategies</div>
+        <div class='task-desc'>A* remembers every node it visits — fast, but memory grows with the network.
+        IDA* forgets and re-searches from scratch each pass, tightening its cost bound each time — slower
+        but uses almost no memory. This benchmark runs <b>10 routes × 20 timing runs</b> across urban
+        and rural pairs to find out which algorithm is right for EcoCart — and at what scale that answer changes.</div>
+      </div>
     </div>""", unsafe_allow_html=True)
 
     urban_data=[
@@ -918,11 +1050,15 @@ with T4:
 # ══════════════════════════════════════════════════════════════════════════════
 with T5:
     st.markdown("""
-    <div class='card card-green'>
-      Can a simple model beat a complex one? Two models are trained on <b>730 days</b> of EcoCart
-      sales history — Linear Regression (transparent, fast) and Random Forest (200 decision trees,
-      captures non-linear patterns). Both are then tested on <b>140 days they have never seen</b>.
-      Press <b>Run</b> to find out which wins, and why the result might surprise you.
+    <div class='task-card'>
+      <div class='task-icon' style='background:#f0fdf4;'>📈</div>
+      <div>
+        <div class='task-title'>Can a simple model beat 200 decision trees?</div>
+        <div class='task-desc'>Linear Regression (fast, transparent) goes head-to-head against
+        Random Forest (200 trees, non-linear patterns). Both train on <b>730 days</b> of EcoCart
+        sales history and are tested blind on <b>140 days they have never seen</b>.
+        Press <b>Run</b> to see which model wins on MAE, RMSE, R², and MAPE — and why the result is surprising.</div>
+      </div>
     </div>""", unsafe_allow_html=True)
 
     run_t5 = st.button("▶  Run Task 5 — Demand Forecasting",
@@ -981,12 +1117,16 @@ with T5:
 # ══════════════════════════════════════════════════════════════════════════════
 with T6:
     st.markdown("""
-    <div class='card card-amber'>
-      What does all of this actually save EcoCart? This tab turns the technical results into
-      a financial model — the savings from A* routing, the rural revenue unlocked by fixing the
-      segmentation bias, and the CO₂ avoided. <b>None of these numbers are real</b> — they are
-      estimates based on typical fleet operations. Use the sliders on the left to plug in
-      EcoCart's actual numbers and see how the ROI changes.
+    <div class='task-card'>
+      <div class='task-icon' style='background:#fffbeb;'>💼</div>
+      <div>
+        <div class='task-title'>What does all of this actually save the business?</div>
+        <div class='task-desc'>This tab turns the technical results into a live financial model —
+        savings from A* route optimisation, revenue unlocked by fixing the segmentation bias, and
+        CO₂ avoided. <b>All numbers are estimates</b> based on assumed fleet inputs.
+        Use the sliders on the left to model EcoCart's real fleet size, fuel costs, and wages —
+        the ROI and payback period update instantly.</div>
+      </div>
     </div>""", unsafe_allow_html=True)
 
     ctrl, main = st.columns([1, 3])
