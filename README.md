@@ -2,7 +2,7 @@
 
 An interactive AI-powered logistics simulation 
 
-🚀 **Live Demo:** [Launch on Streamlit](https://esvanth-ecocart-ai.streamlit.app)
+🚀 **Live Demo:** [Launch on Streamlit](https://ecocart-ai-app-live.streamlit.app)
 
 ---
 

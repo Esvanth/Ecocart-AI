@@ -68,7 +68,7 @@ def _build_report(t2_text, t3_text, t5_text):
         lp.paragraph_format.space_after = Pt(4)
     SP()
     lnk = doc.add_paragraph(); lnk.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    lr2 = lnk.add_run("Live Demo: https://esvanth-ecocart-ai.streamlit.app")
+    lr2 = lnk.add_run("Live Demo: https://ecocart-ai-app-live.streamlit.app")
     lr2.font.name=TNR; lr2.font.size=Pt(11); lr2.font.bold=True
     lr2.font.color.rgb = RGBColor(37,99,235)
     doc.add_page_break()
