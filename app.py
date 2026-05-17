@@ -1307,6 +1307,7 @@ with T6:
             line=dict(color=RED,width=2.5,dash="dash"),mode="lines+markers"))
         fr.add_hline(y=0,line_color=MUTED,line_width=1,line_dash="dot")
         fr.update_layout(**_layout(270))
+        fr.update_layout(showlegend=True,legend=dict(bgcolor=SURF,bordercolor=BORDER,x=0.01,y=0.99))
         fr.update_xaxes(gridcolor=BORDER,tickvals=[0,1,2,3],
                         ticktext=["Now","Year 1","Year 2","Year 3"])
         fr.update_yaxes(gridcolor=BORDER,title="€ thousands")
