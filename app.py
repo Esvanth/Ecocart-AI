@@ -135,10 +135,15 @@ st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&display=swap');
 
+@keyframes shimmer{0%{background-position:-300% center}100%{background-position:300% center}}
+@keyframes glow-pulse{0%,100%{opacity:.18}50%{opacity:.42}}
+@keyframes slide-up{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes dot-ping{0%,100%{box-shadow:0 0 0 0 rgba(129,140,248,.7)}50%{box-shadow:0 0 0 5px rgba(129,140,248,0)}}
+
 *, *::before, *::after { font-family: 'Inter', -apple-system, sans-serif !important; box-sizing: border-box; }
 
 /* Base */
-[data-testid="stAppViewContainer"] { background: #f0f2f8 !important; }
+[data-testid="stAppViewContainer"] { background: linear-gradient(155deg,#edf0ff 0%,#f0f2f8 45%,#f3f0ff 100%) !important; }
 .block-container { padding: .8rem 1.6rem 4rem !important; max-width: 1300px !important; }
 #MainMenu, footer, header { visibility: hidden; }
 ::-webkit-scrollbar { width: 4px; } ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 8px; }
@@ -171,21 +176,25 @@ st.markdown("""
   width: 420px; height: 420px;
   background: radial-gradient(circle, rgba(79,70,229,.22) 0%, transparent 60%);
   border-radius: 50%; pointer-events: none;
+  animation: glow-pulse 5s ease-in-out infinite;
 }
 .hero::after {
   content: ''; position: absolute; bottom: -100px; left: 20%;
   width: 360px; height: 360px;
   background: radial-gradient(circle, rgba(5,150,105,.18) 0%, transparent 60%);
   border-radius: 50%; pointer-events: none;
+  animation: glow-pulse 5s ease-in-out infinite 2.5s;
 }
 .hero-title {
-  font-size: 2.2rem; font-weight: 900; letter-spacing: -.05em; line-height: 1.05;
+  font-size: 2.4rem; font-weight: 900; letter-spacing: -.055em; line-height: 1.05;
   margin: 0 0 10px;
-  background: linear-gradient(135deg, #ffffff 30%, #bfdbfe 70%, #6ee7b7 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #bfdbfe 35%, #6ee7b7 65%, #ffffff 100%);
+  background-size: 300% auto;
   -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  animation: shimmer 8s linear infinite;
 }
 .hero-sub {
-  color: #475569; font-size: .86rem; font-weight: 400;
+  color: #94a3b8; font-size: .86rem; font-weight: 400;
   margin-bottom: 28px; line-height: 1.65; max-width: 560px;
 }
 .hero-stats {
@@ -215,8 +224,10 @@ st.markdown("""
   box-shadow: 0 4px 24px rgba(0,0,0,.05), 0 1px 3px rgba(0,0,0,.03);
   display: flex; gap: 18px; align-items: flex-start;
   transition: box-shadow .2s ease, transform .2s ease;
+  animation: slide-up .45s ease both;
+  border-left-width: 4px;
 }
-.task-card:hover { box-shadow: 0 12px 40px rgba(0,0,0,.1); transform: translateY(-2px); }
+.task-card:hover { box-shadow: 0 16px 48px rgba(0,0,0,.12); transform: translateY(-3px); }
 .task-icon {
   width: 52px; height: 52px; border-radius: 15px; flex-shrink: 0;
   display: flex; align-items: center; justify-content: center; font-size: 1.5rem;
@@ -233,7 +244,7 @@ st.markdown("""
   border: 1px solid #86efac; border-radius: 16px;
   padding: 16px 20px 16px 60px; position: relative;
   color: #14532d; font-size: .82rem; line-height: 1.8; margin: 14px 0;
-  box-shadow: 0 4px 20px rgba(5,150,105,.1);
+  box-shadow: 0 8px 32px rgba(5,150,105,.15), inset 0 1px 0 rgba(255,255,255,.7);
 }
 .insight::before {
   content: '✓'; position: absolute; left: 16px; top: 16px;
@@ -250,7 +261,7 @@ st.markdown("""
   border: 1px solid #fcd34d; border-radius: 16px;
   padding: 16px 20px 16px 60px; position: relative;
   color: #78350f; font-size: .82rem; line-height: 1.8; margin: 14px 0;
-  box-shadow: 0 4px 20px rgba(217,119,6,.1);
+  box-shadow: 0 8px 32px rgba(217,119,6,.15), inset 0 1px 0 rgba(255,255,255,.7);
 }
 .warn-box::before {
   content: '!'; position: absolute; left: 16px; top: 16px;
@@ -293,11 +304,13 @@ st.markdown("""
 
 /* Metrics */
 div[data-testid="metric-container"] {
-  background: #fff; border-radius: 16px; padding: 18px 20px;
-  border: 1px solid #e2e8f0; box-shadow: 0 4px 20px rgba(0,0,0,.05);
+  background: linear-gradient(145deg, #fff 0%, #f8fafc 100%);
+  border-radius: 16px; padding: 18px 20px;
+  border: 1px solid #e2e8f0; border-top: 3px solid #6366f1;
+  box-shadow: 0 4px 20px rgba(0,0,0,.06);
   transition: transform .18s ease, box-shadow .18s ease;
 }
-div[data-testid="metric-container"]:hover { transform: translateY(-3px); box-shadow: 0 10px 32px rgba(0,0,0,.09); }
+div[data-testid="metric-container"]:hover { transform: translateY(-3px); box-shadow: 0 12px 36px rgba(0,0,0,.1); }
 div[data-testid="metric-container"] label { font-size: .68rem !important; font-weight: 800 !important; color: #94a3b8 !important; text-transform: uppercase; letter-spacing: .08em; }
 div[data-testid="metric-container"] [data-testid="stMetricValue"] { font-size: 1.5rem !important; font-weight: 900 !important; color: #0f172a !important; letter-spacing: -.03em; }
 
@@ -386,6 +399,32 @@ details > summary::marker { display: none !important; }
 
 /* Slider */
 .stSlider [data-testid="stTickBarMin"], .stSlider [data-testid="stTickBarMax"] { font-size: .72rem !important; }
+
+/* Hero badge */
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(99,102,241,.14); border: 1.5px solid rgba(99,102,241,.3);
+  border-radius: 20px; padding: 5px 14px; margin-bottom: 16px;
+  backdrop-filter: blur(8px);
+}
+.hero-badge-dot {
+  width: 7px; height: 7px; border-radius: 50%; background: #818cf8; flex-shrink: 0;
+  animation: dot-ping 2.4s ease-in-out infinite;
+}
+.hero-badge-txt { font-size: .63rem; font-weight: 700; color: #a5b4fc; text-transform: uppercase; letter-spacing: .1em; }
+
+/* Sidebar brand icon box */
+.sb-icon-box {
+  width: 64px; height: 64px; border-radius: 20px; margin: 0 auto 10px;
+  background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2rem; box-shadow: 0 6px 24px rgba(15,23,42,.25);
+}
+.sb-version {
+  display: inline-block; background: #f0f9ff; border: 1px solid #bae6fd;
+  border-radius: 10px; padding: 2px 9px; font-size: .6rem;
+  font-weight: 700; color: #0ea5e9; margin-top: 5px;
+}
 </style>
 """, unsafe_allow_html=True)
 
@@ -395,16 +434,17 @@ details > summary::marker { display: none !important; }
 with st.sidebar:
     st.markdown("""
     <div class='sb-brand'>
-      <div class='sb-icon'>🛒</div>
+      <div class='sb-icon-box'>🛒</div>
       <div class='sb-name'>EcoCart AI</div>
       <div class='sb-sub'>Esvanth Mohankumar · 24311073</div>
+      <div class='sb-version'>v2.0 · May 2026</div>
     </div>""", unsafe_allow_html=True)
 
     st.markdown("<div class='sb-section'>How to use</div>", unsafe_allow_html=True)
     for n, t in [("1","Pick a task tab above"),
-                 ("2","Tasks 2, 3, 5 - press Run"),
-                 ("3","Tasks 1 & 3 - press Play"),
-                 ("4","Task 6 - adjust the sliders")]:
+                 ("2","Tasks 2, 3, 5 — press Run"),
+                 ("3","Tasks 1 & 3 — use Play / Slider"),
+                 ("4","Task 6 — adjust the sliders")]:
         st.markdown(f"""<div class='sb-step'>
           <div class='sb-num'>{n}</div>
           <span class='sb-step-txt'>{t}</span></div>""", unsafe_allow_html=True)
@@ -430,7 +470,7 @@ with st.sidebar:
 st.markdown("""
 <div class='hero'>
   <div class='hero-title'>EcoCart AI System</div>
-  <div class='hero-sub'>Six AI tasks built to solve one real logistics problem - every chart and number runs from actual Python scripts</div>
+  <div class='hero-sub'>Six AI tasks built to solve one real logistics problem — every chart and number runs from actual Python scripts</div>
   <div style='display:flex;gap:10px;flex-wrap:wrap;margin-top:4px;'>
     <div style='background:rgba(96,165,250,.18);border:1.5px solid rgba(96,165,250,.4);border-radius:14px;padding:14px 22px;text-align:center;min-width:86px;backdrop-filter:blur(8px);'>
       <div style='color:#93c5fd;font-size:1.7rem;font-weight:900;letter-spacing:-.04em;line-height:1;'>6</div>
@@ -457,8 +497,8 @@ st.markdown("""
 
 T1, T2, T3, T4, T5, T6 = st.tabs([
     "🤖 Task 1 - AI Agents",
-    "⚖️  Task 2 - Bias",
-    "🗺️  Task 3 - Routes",
+    "⚖️ Task 2 - Bias",
+    "🗺️ Task 3 - Routes",
     "📊 Task 4 - A* vs IDA*",
     "📈 Task 5 - Forecast",
     "💼 Task 6 - Business",
@@ -469,7 +509,7 @@ T1, T2, T3, T4, T5, T6 = st.tabs([
 # ══════════════════════════════════════════════════════════════════════════════
 with T1:
     st.markdown("""
-    <div class='task-card'>
+    <div class='task-card' style='border-left-color:#6366f1;'>
       <div class='task-icon' style='background:linear-gradient(135deg,#4f46e5,#818cf8);box-shadow:0 6px 20px rgba(99,102,241,.4);font-size:1.5rem;'>🤖</div>
       <div>
         <div class='task-title'>Three agents, one delivery map. Completely different decisions.</div>
@@ -710,7 +750,7 @@ with T1:
 # ══════════════════════════════════════════════════════════════════════════════
 with T2:
     st.markdown("""
-    <div class='task-card'>
+    <div class='task-card' style='border-left-color:#f59e0b;'>
       <div class='task-icon' style='background:linear-gradient(135deg,#b45309,#f59e0b);box-shadow:0 6px 20px rgba(180,83,9,.4);font-size:1.5rem;'>⚖️</div>
       <div>
         <div class='task-title'>The model was being unfair. Nobody noticed until now.</div>
@@ -771,7 +811,7 @@ with T2:
 # ══════════════════════════════════════════════════════════════════════════════
 with T3:
     st.markdown("""
-    <div class='task-card'>
+    <div class='task-card' style='border-left-color:#0ea5e9;'>
       <div class='task-icon' style='background:linear-gradient(135deg,#0369a1,#38bdf8);box-shadow:0 6px 20px rgba(3,105,161,.4);font-size:1.5rem;'>🗺️</div>
       <div>
         <div class='task-title'>Four algorithms, one delivery network. Which one wins?</div>
@@ -1071,7 +1111,7 @@ with T3:
 # ══════════════════════════════════════════════════════════════════════════════
 with T4:
     st.markdown("""
-    <div class='task-card'>
+    <div class='task-card' style='border-left-color:#8b5cf6;'>
       <div class='task-icon' style='background:linear-gradient(135deg,#6d28d9,#a78bfa);box-shadow:0 6px 20px rgba(109,40,217,.4);font-size:1.5rem;'>📊</div>
       <div>
         <div class='task-title'>Same shortest path, completely different strategies</div>
@@ -1128,7 +1168,7 @@ with T4:
     <div class='insight'>
       Both algorithms found <b>identical optimal paths</b> on every single route - path costs match exactly.
       But A* was faster and expanded fewer nodes every time. The starkest example: R4→R9, where
-      A* needed 7 node expansions in 0.130 ms while IDA* needed 50 in 0.642 ms.
+      A* needed 7 node expansions in 0.125 ms while IDA* needed 50 in 0.673 ms.
       For EcoCart's current network, A* is the clear winner. IDA*'s value shows up at national scale —
       when the network has millions of nodes and storing A*'s visited set would exhaust memory.
     </div>""", unsafe_allow_html=True)
@@ -1138,7 +1178,7 @@ with T4:
 # ══════════════════════════════════════════════════════════════════════════════
 with T5:
     st.markdown("""
-    <div class='task-card'>
+    <div class='task-card' style='border-left-color:#10b981;'>
       <div class='task-icon' style='background:linear-gradient(135deg,#047857,#34d399);box-shadow:0 6px 20px rgba(4,120,87,.4);font-size:1.5rem;'>📈</div>
       <div>
         <div class='task-title'>Can a simple model beat 200 decision trees?</div>
@@ -1206,7 +1246,7 @@ with T5:
 # ══════════════════════════════════════════════════════════════════════════════
 with T6:
     st.markdown("""
-    <div class='task-card'>
+    <div class='task-card' style='border-left-color:#f97316;'>
       <div class='task-icon' style='background:linear-gradient(135deg,#c2410c,#fb923c);box-shadow:0 6px 20px rgba(194,65,12,.4);font-size:1.5rem;'>💼</div>
       <div>
         <div class='task-title'>What does all of this actually save the business?</div>
