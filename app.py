@@ -436,8 +436,8 @@ st.markdown("""
       <div style='color:#93c5fd;font-size:1.7rem;font-weight:900;letter-spacing:-.04em;line-height:1;'>6</div>
       <div style='color:#7dd3fc;font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-top:6px;'>Tasks</div>
     </div>
-    <div style='background:rgba(167,139,250,.18);border:1.5px solid rgba(167,139,250,.4);border-radius:14px;padding:14px 22px;text-align:center;min-width:86px;backdrop-filter:blur(8px);'>
-      <div style='color:#c4b5fd;font-size:1.7rem;font-weight:900;letter-spacing:-.04em;line-height:1;'>4</div>
+    <div title="BFS, DFS, A*, IDA* — Tasks 3 &amp; 4 (Route Search)&#10;K-Means — Task 2 (Customer Segmentation)&#10;Linear Regression, Random Forest — Task 5 (Demand Forecasting)" style='background:rgba(167,139,250,.18);border:1.5px solid rgba(167,139,250,.4);border-radius:14px;padding:14px 22px;text-align:center;min-width:86px;backdrop-filter:blur(8px);cursor:help;'>
+      <div style='color:#c4b5fd;font-size:1.7rem;font-weight:900;letter-spacing:-.04em;line-height:1;'>7</div>
       <div style='color:#c4b5fd;font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-top:6px;'>Algorithms</div>
     </div>
     <div style='background:rgba(251,191,36,.18);border:1.5px solid rgba(251,191,36,.4);border-radius:14px;padding:14px 22px;text-align:center;min-width:86px;backdrop-filter:blur(8px);'>
