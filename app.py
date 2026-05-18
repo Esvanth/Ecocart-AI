@@ -197,26 +197,6 @@ st.markdown("""
   color: #94a3b8; font-size: .86rem; font-weight: 400;
   margin-bottom: 28px; line-height: 1.65; max-width: 560px;
 }
-.hero-stats {
-  display: flex; flex-wrap: wrap; gap: 0;
-  background: rgba(255,255,255,.045);
-  border: 1px solid rgba(255,255,255,.07);
-  border-radius: 16px; padding: 6px; width: fit-content;
-}
-.hero-stat {
-  padding: 12px 24px; text-align: center;
-  border-right: 1px solid rgba(255,255,255,.06);
-}
-.hero-stat:last-child { border-right: none; }
-.hero-stat-num {
-  display: block; color: #f8fafc; font-size: 1.6rem;
-  font-weight: 900; letter-spacing: -.04em; line-height: 1;
-}
-.hero-stat-lbl {
-  display: block; color: #334155; font-size: .6rem; font-weight: 700;
-  text-transform: uppercase; letter-spacing: .1em; margin-top: 5px;
-}
-
 /* Task cards */
 .task-card {
   background: #fff; border-radius: 18px; padding: 20px 22px;
