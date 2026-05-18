@@ -416,8 +416,6 @@ with st.sidebar:
     <div class='sb-brand'>
       <div class='sb-icon-box'>🛒</div>
       <div class='sb-name'>EcoCart AI</div>
-      <div class='sb-sub'>Esvanth Mohankumar · 24311073</div>
-      <div class='sb-version'>v2.0 · May 2026</div>
     </div>""", unsafe_allow_html=True)
 
     st.markdown("<div class='sb-section'>How to use</div>", unsafe_allow_html=True)
