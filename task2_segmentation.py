@@ -7,6 +7,7 @@ Run:  python3 task2_segmentation.py
 Out:  bias_before_after.png, disparate_impact.png
 """
 
+import os
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -14,6 +15,12 @@ from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler
 
 RNG = np.random.default_rng(42)
+CSV_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "customers.csv")
+
+
+def load_customers():
+    """Load the 400-customer dataset from data/customers.csv."""
+    return pd.read_csv(CSV_PATH)
 
 # 1. Generate biased customer data 
 # Urban customers have more data, higher frequency, higher spend — mimicking
@@ -196,8 +203,8 @@ def main():
     print("EcoCart Customer Segmentation — Bias Detection & Mitigation")
     print("="*70)
 
-    # Generate and segment (biased)
-    df = generate_biased_data()
+    # Load and segment (biased)
+    df = load_customers()
     df = segment(df)
     before = compute_fairness(df)
     print(f"\nBEFORE mitigation:")

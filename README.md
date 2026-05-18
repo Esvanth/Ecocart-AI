@@ -2,7 +2,7 @@
 
 An interactive AI-powered logistics simulation 
 
-🚀 **Live Demo:** [Launch on Streamlit](https://ecocart-ai-app-live.streamlit.app)
+ **Live Demo:** [Launch on Streamlit](https://ecocart-ai-app-live.streamlit.app)
 
 ---
 
@@ -43,13 +43,14 @@ Trains two ML models on 730 days of synthetic sales data:
 - **Linear Regression** — fast and interpretable
 - **Random Forest** — captures non-linear seasonal patterns
 
-Trains on 730 days of data and evaluates both models on 140 unseen test days using MAE, RMSE, R², and MAPE.
+Features a **what-if predictor** — enter any day, month, and promotion flag to get an instant sales prediction.
 
 ### Task 6 — Business Case *(Voluntary — AI Student)*
 Quantifies the financial and environmental impact of the AI system with fully interactive sliders:
 - **ROI calculator** — adjusts fleet size, fuel cost, wage rates and shows live annual savings
 - **3-year ROI projection** — cumulative benefit vs cost with breakeven line
-- **CO₂ impact** — estimated tonnes of CO₂ saved per year
+- **CO₂ impact** — tonnes saved per year, tree and car equivalents
+- **Implementation roadmap** — 5-phase Gantt chart across 8 months
 
 ---
 
@@ -68,8 +69,6 @@ Quantifies the financial and environmental impact of the AI system with fully in
 ## Run Locally
 
 ```bash
-git clone https://github.com/Esvanth/Ecocart-AI.git
-cd Ecocart-AI
 pip install -r requirements.txt
 streamlit run app.py
 ```
@@ -79,21 +78,47 @@ streamlit run app.py
 ## Project Structure
 
 ```
-Ecocart-AI/
+FAI SIMULATION/
 ├── app.py                   # Main Streamlit app (all 6 tasks)
 ├── task2_segmentation.py    # Standalone Task 2 script
 ├── task3_4_routing.py       # Standalone Tasks 3 & 4 script
 ├── task5_forecasting.py     # Standalone Task 5 script
+├── data/                    # Synthetic datasets (loaded by every task)
+│   ├── customers.csv        # Task 2 — 400 customer records
+│   ├── sales_history.csv    # Task 5 — 730 days of daily sales
+│   ├── network_nodes.csv    # Tasks 3/4 — 20-node delivery network
+│   ├── network_edges.csv    # Tasks 3/4 — edge weights + CO₂ cost
+│   └── export_data.py       # Regenerates the CSVs from a fixed seed
 ├── requirements.txt         # Python dependencies
 └── README.md
 ```
 
 ---
 
+## Dataset
+
+All data is **synthetic and reproducible**. The CSVs in `data/` are the
+program's data source — every task script (`task2_segmentation.py`,
+`task3_4_routing.py`, `task5_forecasting.py`) loads its inputs directly
+from these files at runtime:
+
+| File | Rows | Description |
+|------|------|-------------|
+| `customers.csv` | 400 | 300 urban + 100 rural customers (deliberately biased) |
+| `sales_history.csv` | 730 | Daily sales with weekly + yearly seasonality + promos |
+| `network_nodes.csv` | 20 | Delivery hubs (x, y, urban/rural) |
+| `network_edges.csv` | 34 | Roads with distance (km) and CO₂ cost (kg) |
+
+The CSVs themselves are generated from an inline source-of-truth with a
+fixed random seed (`np.random.default_rng(42)`). To rebuild them:
+`python data/export_data.py`
+
+---
+
 ## Author
 
-**Esvanth Mohankumar**  
+Esvanth Mohankumar
 Student ID: 24311073  
 Programme: MSc Artificial Intelligence  
-Institution: National College of Ireland  
-Module: Foundations  of AI 
+College: National College of Ireland  
+Module: Foundations of AI 

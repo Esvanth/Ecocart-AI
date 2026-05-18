@@ -6,6 +6,7 @@ Run:  python3 task5_forecasting.py
 Out:  forecast.png, residuals.png, feature_importance.png
 """
 
+import os
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -13,6 +14,12 @@ from sklearn.linear_model import LinearRegression
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 RNG = np.random.default_rng(42)
+CSV_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "sales_history.csv")
+
+
+def load_sales():
+    """Load the 730-day daily sales dataset from data/sales_history.csv."""
+    return pd.read_csv(CSV_PATH, parse_dates=["date"])
 
 
 # ── 1. Synthetic sales data ────────────────────────────────
@@ -62,7 +69,7 @@ def main():
     print("EcoCart Demand Forecasting — LR vs Random Forest")
     print("="*70)
 
-    df = generate_sales()
+    df = load_sales()
     df = add_features(df)
     split = int(len(df) * 0.8)
     train, test = df.iloc[:split], df.iloc[split:]

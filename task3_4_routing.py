@@ -6,46 +6,84 @@ Run:  python3 task3_4_routing.py
 Out:  network_map.png, algo_comparison.png, green_vs_fast.png
 """
 
-import heapq, math, time, tracemalloc, statistics
+import os, heapq, math, time, tracemalloc, statistics
 from collections import deque
+import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 import networkx as nx
 
 # ── 1. Network ──────────────────────────────────────────────
-NODES = {
-    # Urban cluster (dense, short edges)
-    "U1":(1.0,1.0,"urban"),"U2":(2.0,1.5,"urban"),"U3":(3.0,1.0,"urban"),
-    "U4":(1.5,2.5,"urban"),"U5":(2.5,3.0,"urban"),"U6":(3.5,2.0,"urban"),
-    "U7":(1.0,3.5,"urban"),"U8":(2.0,4.0,"urban"),"U9":(3.0,4.0,"urban"),
-    "U10":(4.0,3.5,"urban"),
-    # Rural cluster (sparse, long edges)
-    "R1":(6.0,1.0,"rural"),"R2":(8.0,2.0,"rural"),"R3":(10.0,1.5,"rural"),
-    "R4":(7.0,4.0,"rural"),"R5":(9.0,4.5,"rural"),"R6":(11.0,3.5,"rural"),
-    "R7":(6.5,6.0,"rural"),"R8":(9.0,7.0,"rural"),"R9":(11.0,6.0,"rural"),
-    "R10":(8.0,5.5,"rural"),
-}
+_DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
+NODES_CSV = os.path.join(_DATA_DIR, "network_nodes.csv")
+EDGES_CSV = os.path.join(_DATA_DIR, "network_edges.csv")
+
+
+def _build_inline_network():
+    """Inline source-of-truth for the 20-node delivery graph. Used by
+    data/export_data.py to (re)generate the CSV snapshots."""
+    nodes = {
+        # Urban cluster (dense, short edges)
+        "U1":(1.0,1.0,"urban"),"U2":(2.0,1.5,"urban"),"U3":(3.0,1.0,"urban"),
+        "U4":(1.5,2.5,"urban"),"U5":(2.5,3.0,"urban"),"U6":(3.5,2.0,"urban"),
+        "U7":(1.0,3.5,"urban"),"U8":(2.0,4.0,"urban"),"U9":(3.0,4.0,"urban"),
+        "U10":(4.0,3.5,"urban"),
+        # Rural cluster (sparse, long edges)
+        "R1":(6.0,1.0,"rural"),"R2":(8.0,2.0,"rural"),"R3":(10.0,1.5,"rural"),
+        "R4":(7.0,4.0,"rural"),"R5":(9.0,4.5,"rural"),"R6":(11.0,3.5,"rural"),
+        "R7":(6.5,6.0,"rural"),"R8":(9.0,7.0,"rural"),"R9":(11.0,6.0,"rural"),
+        "R10":(8.0,5.5,"rural"),
+    }
+    pairs = [
+        ("U1","U2"),("U2","U3"),("U1","U4"),("U2","U4"),("U2","U5"),
+        ("U3","U6"),("U4","U5"),("U5","U6"),("U4","U7"),("U5","U8"),
+        ("U6","U10"),("U7","U8"),("U8","U9"),("U9","U10"),("U5","U9"),
+        ("R1","R2"),("R2","R3"),("R1","R4"),("R2","R4"),("R3","R6"),
+        ("R4","R5"),("R5","R6"),("R4","R7"),("R5","R10"),("R7","R10"),
+        ("R7","R8"),("R8","R9"),("R6","R9"),("R8","R10"),("R5","R8"),
+        ("U3","R1"),("U10","R4"),("U6","R1"),("U9","R7"),
+    ]
+    def d(a, b):
+        return math.hypot(nodes[a][0]-nodes[b][0], nodes[a][1]-nodes[b][1])
+    edges = [(a, b, round(d(a,b)*1.15, 2)) for a, b in pairs]
+    def co2(a, b, km):
+        za, zb = nodes[a][2], nodes[b][2]
+        rate = 0.28 if za == "urban" and zb == "urban" else 0.18 if za != zb else 0.10
+        return round(km * rate, 3)
+    co2_edges = [(a, b, co2(a, b, w)) for a, b, w in edges]
+    return nodes, edges, co2_edges
+
+
+def _load_network_from_csv():
+    """Load the delivery graph from data/network_nodes.csv + data/network_edges.csv."""
+    nodes_df = pd.read_csv(NODES_CSV)
+    edges_df = pd.read_csv(EDGES_CSV)
+    nodes = {
+        row["node"]: (float(row["x"]), float(row["y"]), row["region"])
+        for _, row in nodes_df.iterrows()
+    }
+    edges = [
+        (row["from"], row["to"], float(row["distance_km"]))
+        for _, row in edges_df.iterrows()
+    ]
+    co2_edges = [
+        (row["from"], row["to"], float(row["co2_kg"]))
+        for _, row in edges_df.iterrows()
+    ]
+    return nodes, edges, co2_edges
+
+
+if os.path.exists(NODES_CSV) and os.path.exists(EDGES_CSV):
+    NODES, EDGES, CO2_EDGES = _load_network_from_csv()
+else:
+    # First-time bootstrap (CSVs not yet generated) — fall back to inline.
+    NODES, EDGES, CO2_EDGES = _build_inline_network()
+
+
 def _dist(a, b):
     return math.hypot(NODES[a][0]-NODES[b][0], NODES[a][1]-NODES[b][1])
-_PAIRS = [
-    ("U1","U2"),("U2","U3"),("U1","U4"),("U2","U4"),("U2","U5"),
-    ("U3","U6"),("U4","U5"),("U5","U6"),("U4","U7"),("U5","U8"),
-    ("U6","U10"),("U7","U8"),("U8","U9"),("U9","U10"),("U5","U9"),
-    ("R1","R2"),("R2","R3"),("R1","R4"),("R2","R4"),("R3","R6"),
-    ("R4","R5"),("R5","R6"),("R4","R7"),("R5","R10"),("R7","R10"),
-    ("R7","R8"),("R8","R9"),("R6","R9"),("R8","R10"),("R5","R8"),
-    ("U3","R1"),("U10","R4"),("U6","R1"),("U9","R7"),
-]
-# Road distance = 1.15× straight-line
-EDGES = [(a, b, round(_dist(a,b)*1.15, 2)) for a, b in _PAIRS]
-# CO2 cost per edge: urban roads have traffic → higher emissions per km
-# Rural roads: 0.12 kg CO2/km;  Urban roads: 0.21 kg CO2/km
-def _co2(a, b, km):
-    za, zb = NODES[a][2], NODES[b][2]
-    rate = 0.28 if za == "urban" and zb == "urban" else 0.18 if za != zb else 0.10
-    return round(km * rate, 3)
 
-CO2_EDGES = [(a, b, _co2(a, b, w)) for a, b, w in EDGES]
+
 ADJ_KM = {n: [] for n in NODES}
 ADJ_CO2 = {n: [] for n in NODES}
 for i, (a, b, w) in enumerate(EDGES):
